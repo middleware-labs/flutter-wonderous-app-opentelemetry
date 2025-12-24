@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutterrific_opentelemetry/flutterrific_opentelemetry.dart';
+import 'package:middleware_flutter_opentelemetry/middleware_flutter_opentelemetry.dart';
 
 /// A test widget that demonstrates OpenTelemetry metrics and traces
 /// Add this to your app to generate visible telemetry data
@@ -37,10 +37,10 @@ class _OTelTestWidgetState extends State<OTelTestWidget> {
         'initialization.completed': true,
         'initialization.duration_ms': 100,
       }.toAttributes());
-      
+
       span.setStatus(SpanStatusCode.Ok);
       span.end();
-      
+
       // Force flush to ensure span is sent
       FlutterOTel.forceFlush();
     });
@@ -107,12 +107,11 @@ class _OTelTestWidgetState extends State<OTelTestWidget> {
         _testCount++;
         _isLoading = false;
       });
-
     } catch (error, stackTrace) {
       // Record the error in the span
       operationSpan.recordException(error, stackTrace: stackTrace);
       operationSpan.setStatus(SpanStatusCode.Error, error.toString());
-      
+
       setState(() {
         _isLoading = false;
       });
@@ -272,11 +271,11 @@ class _OTelTestWidgetState extends State<OTelTestWidget> {
         'test.operations_completed': _testCount,
       }.toAttributes(),
     );
-    
+
     span.setStatus(SpanStatusCode.Ok);
     span.end();
     FlutterOTel.forceFlush();
-    
+
     super.dispose();
   }
 }

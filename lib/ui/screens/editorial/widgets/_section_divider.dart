@@ -1,7 +1,8 @@
 part of '../editorial_screen.dart';
 
 class _SectionDivider extends StatefulWidget {
-  const _SectionDivider(this.scrollNotifier, this.sectionNotifier, {super.key, required this.index});
+  const _SectionDivider(this.scrollNotifier, this.sectionNotifier,
+      {super.key, required this.index});
   final int index;
   final ValueNotifier<double> scrollNotifier;
   final ValueNotifier<int> sectionNotifier;
@@ -10,7 +11,8 @@ class _SectionDivider extends StatefulWidget {
   State<_SectionDivider> createState() => _SectionDividerState();
 }
 
-class _SectionDividerState extends State<_SectionDivider> with SingleTickerProviderStateMixin {
+class _SectionDividerState extends State<_SectionDivider>
+    with SingleTickerProviderStateMixin {
   final _isActivated = ValueNotifier(false);
 
   double _getSwitchPt(BuildContext c) => c.heightPx * .5;

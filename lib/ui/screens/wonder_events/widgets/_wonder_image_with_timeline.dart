@@ -1,7 +1,8 @@
 part of '../wonder_events.dart';
 
 class _WonderImageWithTimeline extends StatelessWidget {
-  const _WonderImageWithTimeline({super.key, required this.data, required this.height});
+  const _WonderImageWithTimeline(
+      {super.key, required this.data, required this.height});
   final WonderData data;
   final double height;
 
@@ -9,7 +10,8 @@ class _WonderImageWithTimeline extends StatelessWidget {
     double d = luminance - color.computeLuminance();
     if (d <= 0) return color;
     int r = color.red, g = color.green, b = color.blue;
-    return Color.fromARGB(255, (r + (255 - r) * d).toInt(), (g + (255 - g) * d).toInt(), (b + (255 - b) * d).toInt());
+    return Color.fromARGB(255, (r + (255 - r) * d).toInt(),
+        (g + (255 - g) * d).toInt(), (b + (255 - b) * d).toInt());
   }
 
   @override
@@ -46,11 +48,14 @@ class _WonderImageWithTimeline extends StatelessWidget {
                       timelineBuilder: (_, data, isSelected) {
                         return Container(
                           decoration: BoxDecoration(
-                            color: isSelected ? _fixLuminance(data.type.fgColor) : Colors.transparent,
+                            color: isSelected
+                                ? _fixLuminance(data.type.fgColor)
+                                : Colors.transparent,
                             border: isSelected
                                 ? Border.all(color: Colors.transparent)
                                 : Border.all(color: $styles.colors.greyMedium),
-                            borderRadius: BorderRadius.circular($styles.corners.md),
+                            borderRadius:
+                                BorderRadius.circular($styles.corners.md),
                           ),
                         );
                       }),
@@ -92,7 +97,8 @@ class _WonderImageWithTimeline extends StatelessWidget {
   }
 
   Widget _buildEraTextRow(BuildContext context) {
-    final textStyle = $styles.text.body.copyWith(color: $styles.colors.accent2, height: 1);
+    final textStyle =
+        $styles.text.body.copyWith(color: $styles.colors.accent2, height: 1);
     return SeparatedRow(
       separatorBuilder: () => Gap($styles.insets.sm),
       mainAxisAlignment: MainAxisAlignment.center,
@@ -115,7 +121,9 @@ class _WonderImageWithTimeline extends StatelessWidget {
     return Container(
       width: 4,
       height: 4,
-      decoration: BoxDecoration(color: $styles.colors.accent2, borderRadius: BorderRadius.circular(99)),
+      decoration: BoxDecoration(
+          color: $styles.colors.accent2,
+          borderRadius: BorderRadius.circular(99)),
     );
   }
 }

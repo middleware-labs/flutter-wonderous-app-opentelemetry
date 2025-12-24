@@ -69,7 +69,9 @@ class OkCancelModal extends StatelessWidget {
             onPressed: () => Navigator.of(context).pop(true)),
         Gap($styles.insets.xs),
         AppBtn.from(
-            text: $strings.appModalsButtonCancel, expand: true, onPressed: () => Navigator.of(context).pop(false)),
+            text: $strings.appModalsButtonCancel,
+            expand: true,
+            onPressed: () => Navigator.of(context).pop(false)),
       ],
       child: child,
     );
@@ -83,7 +85,8 @@ class _BaseContentModal extends StatelessWidget {
   final Widget? child;
   final List<Widget> buttons;
 
-  const _BaseContentModal({this.title, this.msg, required this.buttons, this.child});
+  const _BaseContentModal(
+      {this.title, this.msg, required this.buttons, this.child});
 
   @override
   Widget build(BuildContext context) {

@@ -1,11 +1,11 @@
 name: wondrous_opentelemetry
-description: Explore the famous wonders of the world - Observed with Dartastic.io.
+description: Explore the famous wonders of the world - Observed with Middleware.io
 publish_to: "none"
 version: 0.3.1
 
 environment:
   sdk: ^3.3.0
-  flutter: ^3.23.0
+  flutter: ^3.28.3
 
 dependencies:
   flutter:
@@ -14,7 +14,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
 
-  flutterrific_opentelemetry: ^0.3.1
+  middleware_flutter_opentelemetry: ^1.0.6
   device_info_plus: ^11.3.2
   battery_plus: ^6.2.1
   #The rest of the dependencies are wonderous original dependencies
@@ -44,7 +44,7 @@ dependencies:
   http: ^1.1.0
   image: ^4.1.3
   image_fade: ^0.6.2
-  intl: ^0.19.0
+  intl: ^0.20.2
   internet_connection_checker: ^1.0.0+1
   package_info_plus: ^8.0.0
   particle_field: ^1.0.0
@@ -85,10 +85,8 @@ flutter_icons:
   image_path: "assets/marketing/app-icon-1024.png"
 
 flutter:
-  uses-material-design: true
-
   generate: true
-
+  uses-material-design: true
   assets:
     - assets/images/_common/
     - assets/images/_common/icons/

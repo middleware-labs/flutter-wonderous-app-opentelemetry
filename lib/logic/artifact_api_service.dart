@@ -2,7 +2,8 @@ import 'package:wondrous_opentelemetry/logic/common/http_client.dart';
 import 'package:wondrous_opentelemetry/logic/data/artifact_data.dart';
 
 class ArtifactAPIService {
-  final String _baseMETUrl = 'https://collectionapi.metmuseum.org/public/collection/v1';
+  final String _baseMETUrl =
+      'https://collectionapi.metmuseum.org/public/collection/v1';
   final String _baseSelfHostedUrl = 'https://www.wonderous.info/met';
 
   Future<ServiceResult<ArtifactData?>> getMetObjectByID(String id) async {
@@ -10,8 +11,10 @@ class ArtifactAPIService {
     return ServiceResult<ArtifactData?>(response, _parseArtifactData);
   }
 
-  Future<ServiceResult<ArtifactData?>> getSelfHostedObjectByID(String id) async {
-    HttpResponse? response = await HttpClient.send('$_baseSelfHostedUrl/$id.json');
+  Future<ServiceResult<ArtifactData?>> getSelfHostedObjectByID(
+      String id) async {
+    HttpResponse? response =
+        await HttpClient.send('$_baseSelfHostedUrl/$id.json');
     return ServiceResult<ArtifactData?>(response, _parseArtifactData);
   }
 

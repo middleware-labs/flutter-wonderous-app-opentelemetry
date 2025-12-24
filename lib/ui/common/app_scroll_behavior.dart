@@ -14,10 +14,12 @@ class AppScrollBehavior extends ScrollBehavior {
 
   // Use bouncing physics on all platforms, better matches the design of the app
   @override
-  ScrollPhysics getScrollPhysics(BuildContext context) => const BouncingScrollPhysics();
+  ScrollPhysics getScrollPhysics(BuildContext context) =>
+      const BouncingScrollPhysics();
 
   @override
-  Widget buildScrollbar(BuildContext context, Widget child, ScrollableDetails details) {
+  Widget buildScrollbar(
+      BuildContext context, Widget child, ScrollableDetails details) {
     if (PlatformInfo.isMobile) return child;
     return RawScrollbar(
       controller: details.controller,

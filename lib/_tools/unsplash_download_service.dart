@@ -36,7 +36,8 @@ class UnsplashDownloadService {
 
   /// Downloads all images for a single collection, in various sizes
   static Future<void> downloadCollectionImages(WonderData data) async {
-    final collection = await _unsplash.loadCollectionPhotos(data.unsplashCollectionId) ?? [];
+    final collection =
+        await _unsplash.loadCollectionPhotos(data.unsplashCollectionId) ?? [];
     debugPrint('download: ${collection.length} images for ${data.title}');
     int downloadCount = 0;
     for (var p in collection) {
@@ -59,7 +60,8 @@ class UnsplashDownloadService {
     /// Note: intentionally not in parallel so as to not annoy the unsplash servers
     Map<String, List<String>> imageListByCollectionId = {};
     for (var w in _wondersLogic.all) {
-      final collection = await _unsplash.loadCollectionPhotos(w.unsplashCollectionId) ?? [];
+      final collection =
+          await _unsplash.loadCollectionPhotos(w.unsplashCollectionId) ?? [];
       imageListByCollectionId[w.unsplashCollectionId] = collection;
     }
     debugPrint('''

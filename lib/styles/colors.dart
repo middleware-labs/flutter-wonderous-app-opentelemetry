@@ -21,11 +21,13 @@ class AppColors {
 
   final bool isDark = false;
 
-  Color shift(Color c, double d) => ColorUtils.shiftHsl(c, d * (isDark ? -1 : 1));
+  Color shift(Color c, double d) =>
+      ColorUtils.shiftHsl(c, d * (isDark ? -1 : 1));
 
   ThemeData toThemeData() {
     /// Create a TextTheme and ColorScheme, that we can use to generate ThemeData
-    TextTheme txtTheme = (isDark ? ThemeData.dark() : ThemeData.light()).textTheme;
+    TextTheme txtTheme =
+        (isDark ? ThemeData.dark() : ThemeData.light()).textTheme;
     Color txtColor = white;
     ColorScheme colorScheme = ColorScheme(
         // Map our custom theme to the Material ColorScheme
@@ -43,7 +45,8 @@ class AppColors {
 
     /// Now that we have ColorScheme and TextTheme, we can create the ThemeData
     /// Also add on some extra properties that ColorScheme seems to miss
-    var t = ThemeData.from(textTheme: txtTheme, colorScheme: colorScheme).copyWith(
+    var t =
+        ThemeData.from(textTheme: txtTheme, colorScheme: colorScheme).copyWith(
       textSelectionTheme: TextSelectionThemeData(cursorColor: accent1),
       highlightColor: accent1,
     );

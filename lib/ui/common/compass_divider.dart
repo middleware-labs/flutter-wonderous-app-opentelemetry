@@ -3,7 +3,12 @@ import 'package:wondrous_opentelemetry/common_libs.dart';
 import 'package:wondrous_opentelemetry/ui/common/utils/duration_utils.dart';
 
 class CompassDivider extends StatelessWidget {
-  const CompassDivider({super.key, required this.isExpanded, this.duration, this.linesColor, this.compassColor});
+  const CompassDivider(
+      {super.key,
+      required this.isExpanded,
+      this.duration,
+      this.linesColor,
+      this.compassColor});
   final bool isExpanded;
   final Duration? duration;
   final Color? linesColor;
@@ -17,7 +22,10 @@ class CompassDivider extends StatelessWidget {
         duration: duration,
         tween: Tween(begin: 0, end: isExpanded ? 1 : 0),
         curve: Curves.easeOut,
-        child: Divider(height: 1, thickness: .5, color: linesColor ?? $styles.colors.accent2),
+        child: Divider(
+            height: 1,
+            thickness: .5,
+            color: linesColor ?? $styles.colors.accent2),
         builder: (_, value, child) {
           return Transform.scale(
             scaleX: value,
@@ -45,7 +53,8 @@ class CompassDivider extends StatelessWidget {
               width: 32,
               child: SvgPicture.asset(
                 SvgPaths.compassFull,
-                colorFilter: (compassColor ?? $styles.colors.accent2).colorFilter,
+                colorFilter:
+                    (compassColor ?? $styles.colors.accent2).colorFilter,
               )),
         ),
         Gap($styles.insets.sm),

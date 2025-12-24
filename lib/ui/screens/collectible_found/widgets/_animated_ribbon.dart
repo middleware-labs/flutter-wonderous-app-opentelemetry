@@ -27,7 +27,9 @@ class _AnimatedRibbon extends StatelessWidget {
         // this aligns the text vertically, without expanding the container:
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [Text(text, textAlign: TextAlign.center, style: $styles.text.title1)],
+          children: [
+            Text(text, textAlign: TextAlign.center, style: $styles.text.title1)
+          ],
         ),
       ),
     ]);
@@ -37,8 +39,10 @@ class _AnimatedRibbon extends StatelessWidget {
     Widget end = Image.asset(ImagePaths.ribbonEnd, height: height);
     if (flip) end = Transform.scale(scaleX: -1, child: end);
     double m = flip ? 1 : -1;
-    return end
-        .maybeAnimate()
-        .move(begin: Offset(m * 8, 2), end: Offset(m * 32, 10), duration: 400.animateMs, curve: Curves.easeOut);
+    return end.maybeAnimate().move(
+        begin: Offset(m * 8, 2),
+        end: Offset(m * 32, 10),
+        duration: 400.animateMs,
+        curve: Curves.easeOut);
   }
 }

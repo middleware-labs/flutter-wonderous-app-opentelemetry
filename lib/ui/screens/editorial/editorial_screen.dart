@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:drop_cap_text/drop_cap_text.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_circular_text/circular_text.dart';
+import 'package:middleware_flutter_opentelemetry/middleware_flutter_opentelemetry.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:wondrous_opentelemetry/common_libs.dart';
 import 'package:wondrous_opentelemetry/logic/common/animate_utils.dart';
@@ -42,7 +43,8 @@ part 'widgets/_title_text.dart';
 part 'widgets/_top_illustration.dart';
 
 class WonderEditorialScreen extends StatefulWidget {
-  const WonderEditorialScreen(this.data, {super.key, required this.contentPadding});
+  const WonderEditorialScreen(this.data,
+      {super.key, required this.contentPadding});
   final WonderData data;
   //final void Function(double scrollPos) onScroll;
   final EdgeInsets contentPadding;
@@ -52,7 +54,8 @@ class WonderEditorialScreen extends StatefulWidget {
 }
 
 class _WonderEditorialScreenState extends State<WonderEditorialScreen> {
-  late final ScrollController _scroller = ScrollController()..addListener(_handleScrollChanged);
+  late final ScrollController _scroller = ScrollController()
+    ..addListener(_handleScrollChanged);
   final _scrollPos = ValueNotifier(0.0);
   final _sectionIndex = ValueNotifier(0);
 
@@ -84,8 +87,10 @@ class _WonderEditorialScreenState extends State<WonderEditorialScreen> {
       double minAppBarHeight = shortMode ? 80 : 150;
 
       /// Attempt to maintain a similar aspect ratio for the image within the app-bar
-      double maxAppBarHeight = min(context.widthPx, $styles.sizes.maxContentWidth1) * 1.2;
-      final backBtnAlign = appLogic.shouldUseNavRail() ? Alignment.topRight : Alignment.topLeft;
+      double maxAppBarHeight =
+          min(context.widthPx, $styles.sizes.maxContentWidth1) * 1.2;
+      final backBtnAlign =
+          appLogic.shouldUseNavRail() ? Alignment.topRight : Alignment.topLeft;
       return PopRouterOnOverScroll(
         controller: _scroller,
         child: ColoredBox(
@@ -131,7 +136,8 @@ class _WonderEditorialScreenState extends State<WonderEditorialScreen> {
                           scrollController: _scroller,
                           child: CustomScrollView(
                             controller: _scroller,
-                            scrollBehavior: ScrollConfiguration.of(context).copyWith(),
+                            scrollBehavior:
+                                ScrollConfiguration.of(context).copyWith(),
                             key: PageStorageKey('editorial'),
                             slivers: [
                               /// Invisible padding at the top of the list, so the illustration shows through the btm
@@ -145,13 +151,16 @@ class _WonderEditorialScreenState extends State<WonderEditorialScreen> {
                                   valueListenable: _scrollPos,
                                   builder: (_, value, child) {
                                     double offsetAmt = max(0, value * .3);
-                                    double opacity = (1 - offsetAmt / 150).clamp(0, 1);
+                                    double opacity =
+                                        (1 - offsetAmt / 150).clamp(0, 1);
                                     return Transform.translate(
                                       offset: Offset(0, offsetAmt),
-                                      child: Opacity(opacity: opacity, child: child),
+                                      child: Opacity(
+                                          opacity: opacity, child: child),
                                     );
                                   },
-                                  child: _TitleText(widget.data, scroller: _scroller),
+                                  child: _TitleText(widget.data,
+                                      scroller: _scroller),
                                 ),
                               ),
 
@@ -174,7 +183,9 @@ class _WonderEditorialScreenState extends State<WonderEditorialScreen> {
                               ),
 
                               /// Editorial content (text and images)
-                              _ScrollingContent(widget.data, scrollPos: _scrollPos, sectionNotifier: _sectionIndex),
+                              _ScrollingContent(widget.data,
+                                  scrollPos: _scrollPos,
+                                  sectionNotifier: _sectionIndex),
                             ],
                           ),
                         ),
@@ -197,7 +208,8 @@ class _WonderEditorialScreenState extends State<WonderEditorialScreen> {
                     alignment: backBtnAlign,
                     child: Padding(
                       padding: EdgeInsets.all($styles.insets.sm),
-                      child: BackBtn(icon: AppIcons.north, onPressed: _handleBackPressed),
+                      child: BackBtn(
+                          icon: AppIcons.north, onPressed: _handleBackPressed),
                     ),
                   ),
                 )

@@ -22,7 +22,8 @@ class PageNotFound extends StatelessWidget {
             Gap(10),
             Text(
               'Wonderous',
-              style: $styles.text.wonderTitle.copyWith(color: $styles.colors.accent1, fontSize: 28),
+              style: $styles.text.wonderTitle
+                  .copyWith(color: $styles.colors.accent1, fontSize: 28),
             ),
             Gap(70),
             Text(
@@ -30,7 +31,8 @@ class PageNotFound extends StatelessWidget {
               style: $styles.text.body.copyWith(color: $styles.colors.offWhite),
             ),
             if (PlatformInfo.isDesktop) ...{
-              LightText(child: Text('Path: $url', style: $styles.text.bodySmall)),
+              LightText(
+                  child: Text('Path: $url', style: $styles.text.bodySmall)),
             },
             Gap(70),
             AppBtn(

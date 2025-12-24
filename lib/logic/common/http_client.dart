@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer' as dev;
 
 import 'package:http/http.dart' as http;
+import 'package:middleware_flutter_opentelemetry/middleware_flutter_opentelemetry.dart';
 import 'package:wondrous_opentelemetry/logic/common/rest_utils.dart';
 import 'package:wondrous_opentelemetry/logic/common/string_utils.dart';
 
@@ -17,9 +18,12 @@ enum MethodType { get, post, put, patch, delete, head }
 typedef HttpRequest = Future<http.Response> Function();
 
 class HttpClient {
-  static Future<HttpResponse> get(String url, {Map<String, String>? headers}) async {
+  static Future<HttpResponse> get(String url,
+      {Map<String, String>? headers}) async {
     return await _request(() async {
-      return await http.get(Uri.parse(url), headers: headers);
+      return await http.Client()
+          .instrument()
+          .get(Uri.parse(url), headers: headers);
     });
   }
 

@@ -1,7 +1,8 @@
 part of '../editorial_screen.dart';
 
 class _SlidingImageStack extends StatelessWidget {
-  const _SlidingImageStack({super.key, required this.scrollPos, required this.type});
+  const _SlidingImageStack(
+      {super.key, required this.scrollPos, required this.type});
 
   final ValueNotifier<double> scrollPos;
   final WonderType type;
@@ -9,7 +10,8 @@ class _SlidingImageStack extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final totalSize = Size(400, 600);
-    Container buildPhoto(double scale, String url, Alignment align, {bool top = true}) {
+    Container buildPhoto(double scale, String url, Alignment align,
+        {bool top = true}) {
       return Container(
         width: totalSize.width * scale,
         height: totalSize.height * scale,
@@ -18,7 +20,8 @@ class _SlidingImageStack extends StatelessWidget {
             top: Radius.circular(top ? totalSize.width / 2 : 0),
             bottom: Radius.circular(top ? 0 : totalSize.width / 2),
           ),
-          image: DecorationImage(image: AssetImage(url), fit: BoxFit.fitWidth, alignment: align),
+          image: DecorationImage(
+              image: AssetImage(url), fit: BoxFit.fitWidth, alignment: align),
         ),
       );
     }

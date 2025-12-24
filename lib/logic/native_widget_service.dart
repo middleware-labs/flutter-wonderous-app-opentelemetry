@@ -13,7 +13,8 @@ class NativeWidgetService {
     await HomeWidget.setAppGroupId(_iosAppGroupId);
   }
 
-  Future<bool?> save<T>(String s, T value, {void Function(bool?)? onSaveComplete}) async {
+  Future<bool?> save<T>(String s, T value,
+      {void Function(bool?)? onSaveComplete}) async {
     if (!isSupported) return false;
     return await HomeWidget.saveWidgetData<T>(s, value).then((value) {
       onSaveComplete?.call(value);

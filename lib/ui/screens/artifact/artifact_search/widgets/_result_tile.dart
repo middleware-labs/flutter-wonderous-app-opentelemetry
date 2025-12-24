@@ -18,7 +18,9 @@ class _ResultTile extends StatelessWidget {
     );
 
     return AspectRatio(
-      aspectRatio: (data.aspectRatio == 0) ? (data.id % 10) / 15 + 0.6 : max(0.5, data.aspectRatio),
+      aspectRatio: (data.aspectRatio == 0)
+          ? (data.id % 10) / 15 + 0.6
+          : max(0.5, data.aspectRatio),
       child: ClipRRect(
         borderRadius: BorderRadius.circular($styles.insets.xs),
         child: AppBtn.basic(

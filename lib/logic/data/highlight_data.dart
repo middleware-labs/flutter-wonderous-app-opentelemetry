@@ -10,7 +10,8 @@ class HighlightData {
     required this.date,
   });
 
-  static HighlightData? fromId(String? id) => id == null ? null : _highlights.firstWhereOrNull((o) => o.id == id);
+  static HighlightData? fromId(String? id) =>
+      id == null ? null : _highlights.firstWhereOrNull((o) => o.id == id);
   static List<HighlightData> forWonder(WonderType wonder) =>
       _highlights.where((o) => o.wonder == wonder).toList(growable: false);
   static List<HighlightData> get all => _highlights;
@@ -28,7 +29,8 @@ class HighlightData {
   String get subtitle => wondersLogic.getData(wonder).artifactCulture;
 
   String get imageUrl => ArtifactData.getSelfHostedImageUrl(artifactId);
-  String get imageUrlSmall => ArtifactData.getSelfHostedImageUrlSmall(artifactId);
+  String get imageUrlSmall =>
+      ArtifactData.getSelfHostedImageUrlSmall(artifactId);
 }
 
 // Note: look up a human readable page with:
@@ -81,7 +83,8 @@ List<HighlightData> _highlights = [
 
 // christRedeemer
   HighlightData(
-    title: '[Studio Portrait: Male Street Vendor Holding Box of Flowers, Brazil]',
+    title:
+        '[Studio Portrait: Male Street Vendor Holding Box of Flowers, Brazil]',
     wonder: WonderType.christRedeemer,
     artifactId: '764815',
     culture: '',
@@ -102,7 +105,8 @@ List<HighlightData> _highlights = [
     date: '1864–66',
   ),
   HighlightData(
-    title: '[Studio Portrait: Female Street Vendor Seated Wearing Turban, Brazil]',
+    title:
+        '[Studio Portrait: Female Street Vendor Seated Wearing Turban, Brazil]',
     wonder: WonderType.christRedeemer,
     artifactId: '764816',
     culture: '',

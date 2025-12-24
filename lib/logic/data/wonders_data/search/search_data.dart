@@ -1,7 +1,8 @@
 import 'package:wondrous_opentelemetry/logic/data/artifact_data.dart';
 
 class SearchData {
-  const SearchData(this.year, this.id, this.title, this.keywords, [this.aspectRatio = 0]);
+  const SearchData(this.year, this.id, this.title, this.keywords,
+      [this.aspectRatio = 0]);
 
   final int year;
   final int id;

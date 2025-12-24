@@ -22,7 +22,8 @@ part 'widgets/_timeline_btn.dart';
 part 'widgets/_wonder_image_with_timeline.dart';
 
 class WonderEvents extends StatefulWidget {
-  const WonderEvents({super.key, required this.type, this.contentPadding = EdgeInsets.zero});
+  const WonderEvents(
+      {super.key, required this.type, this.contentPadding = EdgeInsets.zero});
   final WonderType type;
   final EdgeInsets contentPadding;
   @override
@@ -38,7 +39,8 @@ class _WonderEventsState extends State<WonderEvents> {
 
   @override
   Widget build(BuildContext context) {
-    void handleTimelineBtnPressed() => context.go(ScreenPaths.timeline(widget.type));
+    void handleTimelineBtnPressed() =>
+        context.go(ScreenPaths.timeline(widget.type));
     // Main view content switches between 1 and 2 column layouts
     // On mobile, use the 2 column layout on screens close to landscape (>.85). This is primarily an optimization for foldable devices which have square-ish dimensions when opened.
     final twoColumnAspect = PlatformInfo.isMobile ? .85 : 1;
@@ -56,7 +58,9 @@ class _WonderEventsState extends State<WonderEvents> {
                 top: $styles.insets.sm,
                 child: Padding(
                   padding: widget.contentPadding,
-                  child: useTwoColumnLayout ? _buildTwoColumn(context) : _buildSingleColumn(),
+                  child: useTwoColumnLayout
+                      ? _buildTwoColumn(context)
+                      : _buildSingleColumn(),
                 ),
               ),
 
@@ -82,7 +86,8 @@ class _WonderEventsState extends State<WonderEvents> {
   Widget _buildTwoColumn(BuildContext context) {
     final double timelineImageSize = (context.heightPx - 350).clamp(200, 500);
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: $styles.insets.lg, horizontal: $styles.insets.sm),
+      padding: EdgeInsets.symmetric(
+          vertical: $styles.insets.lg, horizontal: $styles.insets.sm),
       child: Row(
         children: [
           /// WonderImage w/ Timeline btn
@@ -94,9 +99,11 @@ class _WonderEventsState extends State<WonderEvents> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    _WonderImageWithTimeline(data: _data, height: timelineImageSize),
+                    _WonderImageWithTimeline(
+                        data: _data, height: timelineImageSize),
                     Gap($styles.insets.lg),
-                    SizedBox(width: 400, child: _TimelineBtn(type: widget.type)),
+                    SizedBox(
+                        width: 400, child: _TimelineBtn(type: widget.type)),
                   ],
                 ),
               ),
@@ -151,7 +158,8 @@ class _WonderEventsState extends State<WonderEvents> {
                 Gap($styles.insets.lg),
 
                 /// TimelineBtn
-                _TimelineBtn(type: _data.type, width: $styles.sizes.maxContentWidth2),
+                _TimelineBtn(
+                    type: _data.type, width: $styles.sizes.maxContentWidth2),
                 Gap($styles.insets.lg),
               ],
             ),

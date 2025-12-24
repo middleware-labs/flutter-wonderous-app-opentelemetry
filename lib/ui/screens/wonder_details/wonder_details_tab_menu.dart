@@ -1,3 +1,4 @@
+import 'package:middleware_flutter_opentelemetry/middleware_flutter_opentelemetry.dart';
 import 'package:wondrous_opentelemetry/common_libs.dart';
 
 class WonderDetailsTabMenu extends StatelessWidget {
@@ -27,15 +28,20 @@ class WonderDetailsTabMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     Color iconColor = showBg ? $styles.colors.black : $styles.colors.white;
     // Measure available size after subtracting the home button size and insets
-    final availableSize = ((isVertical ? context.heightPx : context.widthPx) - homeBtnSize - $styles.insets.md);
+    final availableSize = ((isVertical ? context.heightPx : context.widthPx) -
+        homeBtnSize -
+        $styles.insets.md);
     // Calculate tabBtnSize based on availableSize
     final double tabBtnSize = (availableSize / 4).clamp(minTabSize, maxTabSize);
     // Figure out some extra gap, in the case that the tabBtns are wider than the homeBtn
     final double gapAmt = max(0, tabBtnSize - homeBtnSize);
     // Store off safe areas which we will need to respect in the layout below
-    final double safeAreaBtm = context.mq.padding.bottom, safeAreaTop = context.mq.padding.top;
+    final double safeAreaBtm = context.mq.padding.bottom,
+        safeAreaTop = context.mq.padding.top;
     // Insets the bg from the rounded wonder icon making it appear offset. The tab btns will use the same padding.
-    final buttonInsetPadding = isVertical ? EdgeInsets.only(right: buttonInset) : EdgeInsets.only(top: buttonInset);
+    final buttonInsetPadding = isVertical
+        ? EdgeInsets.only(right: buttonInset)
+        : EdgeInsets.only(top: buttonInset);
     return Padding(
       padding: isVertical ? EdgeInsets.only(top: safeAreaTop) : EdgeInsets.zero,
       child: Stack(
@@ -51,7 +57,9 @@ class WonderDetailsTabMenu extends StatelessWidget {
                 child: Container(
                   decoration: BoxDecoration(
                     color: $styles.colors.white,
-                    borderRadius: isVertical ? BorderRadius.only(topRight: Radius.circular(32)) : null,
+                    borderRadius: isVertical
+                        ? BorderRadius.only(topRight: Radius.circular(32))
+                        : null,
                   ),
                 ),
               ),
@@ -152,7 +160,8 @@ class WonderDetailsTabMenu extends StatelessWidget {
 }
 
 class _WonderHomeBtn extends StatelessWidget {
-  const _WonderHomeBtn({required this.size, required this.wonderType, required this.borderSize});
+  const _WonderHomeBtn(
+      {required this.size, required this.wonderType, required this.borderSize});
 
   final double size;
   final WonderType wonderType;
@@ -173,7 +182,8 @@ class _WonderHomeBtn extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(99),
           color: wonderType.fgColor,
-          image: DecorationImage(image: AssetImage(wonderType.homeBtn), fit: BoxFit.fill),
+          image: DecorationImage(
+              image: AssetImage(wonderType.homeBtn), fit: BoxFit.fill),
         ),
       ),
     );
@@ -208,9 +218,12 @@ class _TabBtn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool selected = tabController.index == index;
-    final MaterialLocalizations localizations = MaterialLocalizations.of(context);
-    final iconImgPath = '${ImagePaths.common}/tab-$iconImg${selected ? '-active' : ''}.png';
-    String tabLabel = localizations.tabLabel(tabIndex: index + 1, tabCount: tabController.length);
+    final MaterialLocalizations localizations =
+        MaterialLocalizations.of(context);
+    final iconImgPath =
+        '${ImagePaths.common}/tab-$iconImg${selected ? '-active' : ''}.png';
+    String tabLabel = localizations.tabLabel(
+        tabIndex: index + 1, tabCount: tabController.length);
     tabLabel = '$label: $tabLabel';
 
     final double iconSize = min(mainAxisSize, 32);
@@ -223,7 +236,9 @@ class _TabBtn extends StatelessWidget {
           child: AppBtn.basic(
             onPressed: () => onTap(index),
             semanticLabel: label,
-            minimumSize: _isVertical ? Size(crossBtnSize, mainAxisSize) : Size(mainAxisSize, crossBtnSize),
+            minimumSize: _isVertical
+                ? Size(crossBtnSize, mainAxisSize)
+                : Size(mainAxisSize, crossBtnSize),
             // Image icon
             child: Image.asset(
               iconImgPath,
@@ -231,7 +246,7 @@ class _TabBtn extends StatelessWidget {
               width: iconSize,
               color: selected ? null : color,
             ),
-          ),
+          ).withOTelButtonTracking(label),
         ),
       ),
     );

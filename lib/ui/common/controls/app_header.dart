@@ -41,7 +41,8 @@ class AppHeader extends StatelessWidget {
                         if (title != null)
                           Text(
                             title!.toUpperCase(),
-                            textHeightBehavior: TextHeightBehavior(applyHeightToFirstAscent: false),
+                            textHeightBehavior: TextHeightBehavior(
+                                applyHeightToFirstAscent: false),
                             style: $styles.text.h4.copyWith(
                               color: $styles.colors.offWhite,
                               fontWeight: FontWeight.w500,
@@ -50,8 +51,10 @@ class AppHeader extends StatelessWidget {
                         if (subtitle != null)
                           Text(
                             subtitle!.toUpperCase(),
-                            textHeightBehavior: TextHeightBehavior(applyHeightToFirstAscent: false),
-                            style: $styles.text.title1.copyWith(color: $styles.colors.accent1),
+                            textHeightBehavior: TextHeightBehavior(
+                                applyHeightToFirstAscent: false),
+                            style: $styles.text.title1
+                                .copyWith(color: $styles.colors.accent1),
                           ),
                       ],
                     ),

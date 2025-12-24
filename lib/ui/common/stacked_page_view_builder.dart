@@ -19,8 +19,10 @@ class StackedPageViewBuilder extends StatefulWidget {
   });
   final int initialIndex;
   final int pageCount;
-  final Widget Function(BuildContext builder, PageController controller, PageController follower) builder;
-  final void Function(PageController controller, PageController follower)? onInit;
+  final Widget Function(BuildContext builder, PageController controller,
+      PageController follower) builder;
+  final void Function(PageController controller, PageController follower)?
+      onInit;
   @override
   State<StackedPageViewBuilder> createState() => _StackedPageViewBuilderState();
 }
@@ -61,5 +63,6 @@ class _StackedPageViewBuilderState extends State<StackedPageViewBuilder> {
     );
   }
 
-  void _handleControllerChanged() => _follower.jumpTo(_controller.position.pixels);
+  void _handleControllerChanged() =>
+      _follower.jumpTo(_controller.position.pixels);
 }

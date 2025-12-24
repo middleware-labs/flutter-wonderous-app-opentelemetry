@@ -29,7 +29,8 @@ class _OpeningCardState extends State<OpeningCard> {
       curve: Curves.easeOut,
       builder: (_, value, child) => Stack(
         children: [
-          if (widget.background != null) Positioned.fill(child: widget.background!),
+          if (widget.background != null)
+            Positioned.fill(child: widget.background!),
           Padding(
             padding: widget.padding ?? EdgeInsets.zero,
             child: SizedBox(
@@ -54,7 +55,9 @@ class _OpeningCardState extends State<OpeningCard> {
               onChange: (size) {
                 setState(() => _size = size);
               },
-              child: widget.isOpen ? widget.openBuilder(context) : widget.closedBuilder(context),
+              child: widget.isOpen
+                  ? widget.openBuilder(context)
+                  : widget.closedBuilder(context),
             ),
           ),
         ),

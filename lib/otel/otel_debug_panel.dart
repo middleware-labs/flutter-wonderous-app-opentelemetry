@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutterrific_opentelemetry/flutterrific_opentelemetry.dart';
+import 'package:middleware_flutter_opentelemetry/middleware_flutter_opentelemetry.dart';
 import 'package:wondrous_opentelemetry/otel/debug_span_diagnostics.dart';
 
 /// A floating debug panel for OpenTelemetry testing
@@ -69,16 +69,20 @@ class _OTelDebugPanelState extends State<OTelDebugPanel>
       await Future.delayed(const Duration(milliseconds: 300));
 
       // Add some events to the span
-      span.addEventNow('test_work_started', {
-        'work.type': 'simulation',
-      }.toAttributes());
+      span.addEventNow(
+          'test_work_started',
+          {
+            'work.type': 'simulation',
+          }.toAttributes());
 
       await Future.delayed(const Duration(milliseconds: 200));
 
-      span.addEventNow('test_work_completed', {
-        'work.items': 42,
-        'work.success': true,
-      }.toAttributes());
+      span.addEventNow(
+          'test_work_completed',
+          {
+            'work.items': 42,
+            'work.success': true,
+          }.toAttributes());
 
       // Update span with final attributes
       span.addAttributes({
@@ -89,7 +93,7 @@ class _OTelDebugPanelState extends State<OTelDebugPanel>
       span.setStatus(SpanStatusCode.Ok);
 
       // Send a metric too
-      FlutterMetricReporter().reportPerformanceMetric(
+      FlutterOTel.recordPerformanceMetric(
         'debug_panel_test_operation',
         const Duration(milliseconds: 500),
         attributes: {
@@ -115,7 +119,7 @@ class _OTelDebugPanelState extends State<OTelDebugPanel>
     } catch (error, stackTrace) {
       span.recordException(error, stackTrace: stackTrace);
       span.setStatus(SpanStatusCode.Error, error.toString());
-      
+
       setState(() {
         _isLoading = false;
       });
@@ -168,7 +172,7 @@ class _OTelDebugPanelState extends State<OTelDebugPanel>
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      top: 50,  // Higher up to avoid conflicts
+      top: 50, // Higher up to avoid conflicts
       right: 16,
       child: SafeArea(
         child: Material(
@@ -178,11 +182,13 @@ class _OTelDebugPanelState extends State<OTelDebugPanel>
             builder: (context, child) {
               return Container(
                 width: _isExpanded ? 200 : 56,
-                height: _isExpanded ? 280 : 56,  // Taller when expanded
+                height: _isExpanded ? 280 : 56, // Taller when expanded
                 decoration: BoxDecoration(
                   color: Colors.black87,
                   borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: Colors.orange, width: 2),  // Orange border to make it visible
+                  border: Border.all(
+                      color: Colors.orange,
+                      width: 2), // Orange border to make it visible
                   boxShadow: [
                     BoxShadow(
                       color: Colors.orange.withOpacity(0.3),
@@ -191,7 +197,9 @@ class _OTelDebugPanelState extends State<OTelDebugPanel>
                     ),
                   ],
                 ),
-                child: _isExpanded ? _buildExpandedPanel() : _buildCollapsedButton(),
+                child: _isExpanded
+                    ? _buildExpandedPanel()
+                    : _buildCollapsedButton(),
               );
             },
           ),
@@ -213,8 +221,8 @@ class _OTelDebugPanelState extends State<OTelDebugPanel>
         ),
         child: const Icon(
           Icons.bug_report,
-          color: Colors.orange,  // Orange icon to match border
-          size: 28,  // Slightly larger
+          color: Colors.orange, // Orange icon to match border
+          size: 28, // Slightly larger
         ),
       ),
     );
@@ -306,21 +314,25 @@ class _OTelDebugPanelState extends State<OTelDebugPanel>
                         // Import and run diagnostics
                         debugPrint('🔍 Running manual diagnostics...');
                         OTelSpanDiagnostics.runFullDiagnostics();
-                        
+
                         // Simple inline diagnostic
                         final tracerProvider = FlutterOTel.tracerProvider;
-                        final processorCount = tracerProvider.spanProcessors.length;
-                        
+                        final processorCount =
+                            tracerProvider.spanProcessors.length;
+
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: Text('Processors: $processorCount\nCheck console for details'),
+                            content: Text(
+                                'Processors: $processorCount\nCheck console for details'),
                             duration: const Duration(seconds: 3),
                           ),
                         );
-                        
-                        debugPrint('TracerProvider span processors: $processorCount');
+
+                        debugPrint(
+                            'TracerProvider span processors: $processorCount');
                         for (int i = 0; i < processorCount; i++) {
-                          debugPrint('  $i: ${tracerProvider.spanProcessors[i].runtimeType}');
+                          debugPrint(
+                              '  $i: ${tracerProvider.spanProcessors[i].runtimeType}');
                         }
                       } catch (e) {
                         debugPrint('Diagnostic error: $e');

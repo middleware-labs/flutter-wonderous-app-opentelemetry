@@ -36,14 +36,20 @@ class ScrollDecorator extends StatefulWidget {
           if (begin != null)
             AnimatedOpacity(
               duration: duration,
-              opacity: controller.hasClients && controller.position.extentBefore > 3 ? 1 : 0,
+              opacity:
+                  controller.hasClients && controller.position.extentBefore > 3
+                      ? 1
+                      : 0,
               child: begin,
             ),
           Spacer(),
           if (end != null)
             AnimatedOpacity(
               duration: duration,
-              opacity: controller.hasClients && controller.position.extentAfter > 3 ? 1 : 0,
+              opacity:
+                  controller.hasClients && controller.position.extentAfter > 3
+                      ? 1
+                      : 0,
               child: end,
             ),
         ],
@@ -64,13 +70,18 @@ class ScrollDecorator extends StatefulWidget {
   }) {
     bgBuilder = null;
     fgBuilder = (controller) {
-      final double ratio = controller.hasClients ? min(1, controller.position.extentBefore / 60) : 0;
+      final double ratio = controller.hasClients
+          ? min(1, controller.position.extentBefore / 60)
+          : 0;
       return IgnorePointerAndSemantics(
         child: Container(
           height: 24,
           decoration: BoxDecoration(
             gradient: LinearGradient(
-              colors: [color.withOpacity(ratio * color.opacity), Colors.transparent],
+              colors: [
+                color.withOpacity(ratio * color.opacity),
+                Colors.transparent
+              ],
               stops: [0, ratio],
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,

@@ -9,7 +9,8 @@ class ArrowDir {
 }
 
 class KeyboardArrowsListener extends StatefulWidget {
-  const KeyboardArrowsListener({super.key, required this.child, required this.onArrow});
+  const KeyboardArrowsListener(
+      {super.key, required this.child, required this.onArrow});
   final Widget child;
   final void Function(ArrowDir dir) onArrow;
   @override

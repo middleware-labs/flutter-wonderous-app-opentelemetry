@@ -27,7 +27,8 @@ class _CelebrationParticles extends StatelessWidget {
             final double v = d * 0.08;
 
             // calculate an opacity multiplier based on time elapsed (ie. fade out):
-            controller.opacity = Curves.easeOutExpo.transform(max(0, 1 - elapsed.inMilliseconds / fadeMs));
+            controller.opacity = Curves.easeOutExpo
+                .transform(max(0, 1 - elapsed.inMilliseconds / fadeMs));
             if (controller.opacity == 0) return;
 
             // add new particles, reducing the number added each tick:

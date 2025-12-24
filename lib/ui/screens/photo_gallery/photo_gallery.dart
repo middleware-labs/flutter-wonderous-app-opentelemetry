@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
+import 'package:middleware_flutter_opentelemetry/middleware_flutter_opentelemetry.dart';
 import 'package:wondrous_opentelemetry/common_libs.dart';
 import 'package:wondrous_opentelemetry/logic/common/animate_utils.dart';
 import 'package:wondrous_opentelemetry/logic/data/unsplash_photo_data.dart';
@@ -16,7 +17,11 @@ import 'package:wondrous_opentelemetry/ui/common/utils/app_haptics.dart';
 part 'widgets/_animated_cutout_overlay.dart';
 
 class PhotoGallery extends StatefulWidget {
-  const PhotoGallery({super.key, this.imageSize, required this.collectionId, required this.wonderType});
+  const PhotoGallery(
+      {super.key,
+      this.imageSize,
+      required this.collectionId,
+      required this.wonderType});
   final Size? imageSize;
   final String collectionId;
   final WonderType wonderType;
@@ -36,7 +41,8 @@ class _PhotoGalleryState extends State<PhotoGallery> {
   final _photoIds = ValueNotifier<List<String>>([]);
   int get _imgCount => pow(_gridSize, 2).round();
 
-  late final List<FocusNode> _focusNodes = List.generate(_imgCount, (index) => FocusNode());
+  late final List<FocusNode> _focusNodes =
+      List.generate(_imgCount, (index) => FocusNode());
 
   //TODO: Remove this field (and associated workarounds) once web properly supports ClipPath (https://github.com/flutter/flutter/issues/124675)
   final bool useClipPathWorkAroundForWeb = kIsWeb;
@@ -73,11 +79,13 @@ class _PhotoGalleryState extends State<PhotoGallery> {
     double halfCount = (_gridSize / 2).floorToDouble();
     Size paddedImageSize = Size(size.width + padding, size.height + padding);
     // Get the starting offset that would show the top-left image (index 0)
-    final originOffset = Offset(halfCount * paddedImageSize.width, halfCount * paddedImageSize.height);
+    final originOffset = Offset(
+        halfCount * paddedImageSize.width, halfCount * paddedImageSize.height);
     // Add the offset for the row/col
     int col = _index % _gridSize;
     int row = (_index / _gridSize).floor();
-    final indexedOffset = Offset(-paddedImageSize.width * col, -paddedImageSize.height * row);
+    final indexedOffset =
+        Offset(-paddedImageSize.width * col, -paddedImageSize.height * row);
     return originOffset + indexedOffset;
   }
 
@@ -165,7 +173,8 @@ class _PhotoGalleryState extends State<PhotoGallery> {
   }
 
   bool _checkCollectibleIndex(int index) {
-    return index == _getCollectibleIndex() && collectiblesLogic.isLost(widget.wonderType, 1);
+    return index == _getCollectibleIndex() &&
+        collectiblesLogic.isLost(widget.wonderType, 1);
   }
 
   @override
@@ -186,8 +195,10 @@ class _PhotoGalleryState extends State<PhotoGallery> {
           final padding = $styles.insets.md;
           var gridOffset = _calculateCurrentOffset(padding, imgSize);
           gridOffset += Offset(0, -context.mq.padding.top / 2);
-          final offsetTweenDuration = _skipNextOffsetTween ? Duration.zero : swipeDuration;
-          final cutoutTweenDuration = _skipNextOffsetTween ? Duration.zero : swipeDuration * .5;
+          final offsetTweenDuration =
+              _skipNextOffsetTween ? Duration.zero : swipeDuration;
+          final cutoutTweenDuration =
+              _skipNextOffsetTween ? Duration.zero : swipeDuration * .5;
           return _AnimatedCutoutOverlay(
             animationKey: ValueKey(_index),
             cutoutSize: imgSize,
@@ -200,7 +211,8 @@ class _PhotoGalleryState extends State<PhotoGallery> {
               // Place content in overflow box, to allow it to flow outside the parent
               child: OverflowBox(
                 maxWidth: _gridSize * imgSize.width + padding * (_gridSize - 1),
-                maxHeight: _gridSize * imgSize.height + padding * (_gridSize - 1),
+                maxHeight:
+                    _gridSize * imgSize.height + padding * (_gridSize - 1),
                 alignment: Alignment.center,
                 // Detect swipes in order to change index
                 child: EightWaySwipeDetector(
@@ -211,7 +223,8 @@ class _PhotoGalleryState extends State<PhotoGallery> {
                     tween: Tween(begin: gridOffset, end: gridOffset),
                     duration: offsetTweenDuration,
                     curve: Curves.easeOut,
-                    builder: (_, value, child) => Transform.translate(offset: value, child: child),
+                    builder: (_, value, child) =>
+                        Transform.translate(offset: value, child: child),
                     child: FocusTraversalGroup(
                       //policy: OrderedTraversalPolicy(),
                       child: GridView.count(
@@ -220,7 +233,8 @@ class _PhotoGalleryState extends State<PhotoGallery> {
                         childAspectRatio: imgSize.aspectRatio,
                         mainAxisSpacing: padding,
                         crossAxisSpacing: padding,
-                        children: List.generate(_imgCount, (i) => _buildImage(i, swipeDuration, imgSize)),
+                        children: List.generate(_imgCount,
+                            (i) => _buildImage(i, swipeDuration, imgSize)),
                       ),
                     ),
                   ),
@@ -248,14 +262,16 @@ class _PhotoGalleryState extends State<PhotoGallery> {
             } else {
               semanticLbl = !isSelected
                   ? $strings.photoGallerySemanticFocus(index + 1, _imgCount)
-                  : $strings.photoGallerySemanticFullscreen(index + 1, _imgCount);
+                  : $strings.photoGallerySemanticFullscreen(
+                      index + 1, _imgCount);
             }
 
             final photoWidget = TweenAnimationBuilder<double>(
               duration: $styles.times.med,
               curve: Curves.easeOut,
               tween: Tween(begin: 1, end: isSelected ? 1.15 : 1),
-              builder: (_, value, child) => Transform.scale(scale: value, child: child),
+              builder: (_, value, child) =>
+                  Transform.scale(scale: value, child: child),
               child: UnsplashPhoto(
                 imgUrl,
                 fit: BoxFit.cover,
@@ -272,12 +288,14 @@ class _PhotoGalleryState extends State<PhotoGallery> {
                 onDecrease: () => _handleImageTapped(_index - 1, false),
                 child: _checkCollectibleIndex(index)
                     ? Center(
-                        child: HiddenCollectible(widget.wonderType, index: 1, size: 100, focus: _focusNodes[index]),
+                        child: HiddenCollectible(widget.wonderType,
+                            index: 1, size: 100, focus: _focusNodes[index]),
                       )
                     : AppBtn.basic(
                         semanticLabel: semanticLbl,
                         focusNode: _focusNodes[index],
-                        onFocusChanged: (isFocused) => _handleImageFocusChanged(index, isFocused),
+                        onFocusChanged: (isFocused) =>
+                            _handleImageFocusChanged(index, isFocused),
                         onPressed: () => _handleImageTapped(index, isSelected),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(8),
@@ -293,15 +311,20 @@ class _PhotoGalleryState extends State<PhotoGallery> {
                                       Positioned.fill(
                                         child: AnimatedOpacity(
                                           duration: $styles.times.med,
-                                          opacity: isSelected ? 0 : ($styles.highContrast ? 0.4 : 0.7),
-                                          child: ColoredBox(color: $styles.colors.black),
+                                          opacity: isSelected
+                                              ? 0
+                                              : ($styles.highContrast
+                                                  ? 0.4
+                                                  : 0.7),
+                                          child: ColoredBox(
+                                              color: $styles.colors.black),
                                         ),
                                       ),
                                     ],
                                   ),
                           ),
                         ),
-                      ),
+                      ).withOTelButtonTracking(semanticLbl),
               ),
             );
           }),

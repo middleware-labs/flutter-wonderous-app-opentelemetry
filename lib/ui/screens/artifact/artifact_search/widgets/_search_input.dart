@@ -2,6 +2,7 @@ part of '../artifact_search_screen.dart';
 
 /// Autopopulating textfield used for searching for Artifacts by name.
 const double _inputWidth = 400;
+
 class _SearchInput extends StatelessWidget {
   const _SearchInput({super.key, required this.onSubmit, required this.wonder});
   final void Function(String) onSubmit;
@@ -34,8 +35,11 @@ class _SearchInput extends StatelessWidget {
       ..sort((a, b) => a.toLowerCase().compareTo(b.toLowerCase()));
   }
 
-  Widget _buildSuggestionsView(BuildContext context, onSelected, Iterable<String> results, BoxConstraints constraints) {
-    List<Widget> items = results.map((str) => _buildSuggestion(context, str, () => onSelected(str))).toList();
+  Widget _buildSuggestionsView(BuildContext context, onSelected,
+      Iterable<String> results, BoxConstraints constraints) {
+    List<Widget> items = results
+        .map((str) => _buildSuggestion(context, str, () => onSelected(str)))
+        .toList();
     items.insert(0, _buildSuggestionTitle(context));
     return Stack(
       children: [
@@ -44,7 +48,7 @@ class _SearchInput extends StatelessWidget {
             onPressed: FocusManager.instance.primaryFocus!.unfocus,
             semanticLabel: '',
             child: SizedBox.expand(),
-          ),
+          ).withOTelButtonTracking('suggestion_search'),
         ),
         TopLeft(
           child: Container(
@@ -85,21 +89,26 @@ class _SearchInput extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all($styles.insets.xs).copyWith(top: 0),
       margin: EdgeInsets.only(bottom: $styles.insets.xxs),
-      decoration: BoxDecoration(border: Border(bottom: BorderSide(color: $styles.colors.greyStrong.withOpacity(0.1)))),
+      decoration: BoxDecoration(
+          border: Border(
+              bottom: BorderSide(
+                  color: $styles.colors.greyStrong.withOpacity(0.1)))),
       child: CenterLeft(
         child: DefaultTextStyle(
           style: $styles.text.title2.copyWith(color: $styles.colors.black),
           child: Text(
             $strings.searchInputTitleSuggestions.toUpperCase(),
             overflow: TextOverflow.ellipsis,
-            textHeightBehavior: TextHeightBehavior(applyHeightToFirstAscent: false),
+            textHeightBehavior:
+                TextHeightBehavior(applyHeightToFirstAscent: false),
           ),
         ),
       ),
     );
   }
 
-  Widget _buildSuggestion(BuildContext context, String suggestion, VoidCallback onPressed) {
+  Widget _buildSuggestion(
+      BuildContext context, String suggestion, VoidCallback onPressed) {
     return AppBtn.basic(
       semanticLabel: suggestion,
       onPressed: onPressed,
@@ -107,20 +116,25 @@ class _SearchInput extends StatelessWidget {
         padding: EdgeInsets.all($styles.insets.xs),
         child: CenterLeft(
           child: DefaultTextStyle(
-            style: $styles.text.bodySmall.copyWith(color: $styles.colors.greyStrong),
+            style: $styles.text.bodySmall
+                .copyWith(color: $styles.colors.greyStrong),
             child: Text(
               suggestion,
               overflow: TextOverflow.ellipsis,
-              textHeightBehavior: TextHeightBehavior(applyHeightToFirstAscent: false),
+              textHeightBehavior:
+                  TextHeightBehavior(applyHeightToFirstAscent: false),
             ),
           ),
         ),
-      ),
+      ).withOTelButtonTracking('suggestion'),
     );
   }
 
-  Widget _buildInput(BuildContext context, TextEditingController textController, FocusNode focusNode, _) {
+  Widget _buildInput(BuildContext context, TextEditingController textController,
+      FocusNode focusNode, _) {
     Color captionColor = $styles.colors.caption;
+    final sensitiveFieldKey = GlobalKey();
+    FlutterOTel.maskView(sensitiveFieldKey);
     return Container(
       constraints: BoxConstraints(maxWidth: _inputWidth),
       height: $styles.insets.xl,
@@ -133,6 +147,7 @@ class _SearchInput extends StatelessWidget {
           Gap($styles.insets.xs * 1.5),
           Icon(Icons.search, color: captionColor),
           Expanded(
+            key: sensitiveFieldKey,
             child: TextField(
               onSubmitted: onSubmit,
               controller: textController,
@@ -146,10 +161,11 @@ class _SearchInput extends StatelessWidget {
                 hintStyle: TextStyle(color: $styles.colors.body),
                 prefixStyle: TextStyle(color: captionColor),
                 focusedBorder: OutlineInputBorder(borderSide: BorderSide.none),
-                enabledBorder: UnderlineInputBorder(borderSide: BorderSide.none),
+                enabledBorder:
+                    UnderlineInputBorder(borderSide: BorderSide.none),
                 hintText: $strings.searchInputHintSearch,
               ),
-            ),
+            ).withOTelTextFieldTracking('search'),
           ),
           Gap($styles.insets.xs),
           ValueListenableBuilder(

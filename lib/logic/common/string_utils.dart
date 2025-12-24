@@ -7,11 +7,13 @@ class StringUtils {
 
   static bool isNotEmpty(String? s) => !isEmpty(s);
 
-  static bool isLink(String str) =>
-      str.contains(RegExp(r'^(https?:\/\/)?([\w\d_-]+)\.([\w\d_\.-]+)\/?\??([^#\n\r]*)?#?([^\n\r]*)'));
+  static bool isLink(String str) => str.contains(RegExp(
+      r'^(https?:\/\/)?([\w\d_-]+)\.([\w\d_\.-]+)\/?\??([^#\n\r]*)?#?([^\n\r]*)'));
 
   static String truncateWithEllipsis(int cutoff, String myString) {
-    return (myString.length <= cutoff) ? myString : '${myString.substring(0, cutoff)}...';
+    return (myString.length <= cutoff)
+        ? myString
+        : '${myString.substring(0, cutoff)}...';
   }
 
   static String printMap(Map<String, dynamic>? map) {
@@ -20,14 +22,18 @@ class StringUtils {
     return str;
   }
 
-  static Size measure(String text, TextStyle style, {int maxLines = 1, TextDirection direction = TextDirection.ltr}) {
-    final TextPainter textPainter =
-        TextPainter(text: TextSpan(text: text, style: style), maxLines: maxLines, textDirection: direction)
-          ..layout(minWidth: 0, maxWidth: double.infinity);
+  static Size measure(String text, TextStyle style,
+      {int maxLines = 1, TextDirection direction = TextDirection.ltr}) {
+    final TextPainter textPainter = TextPainter(
+        text: TextSpan(text: text, style: style),
+        maxLines: maxLines,
+        textDirection: direction)
+      ..layout(minWidth: 0, maxWidth: double.infinity);
     return textPainter.size;
   }
 
-  static double measureLongest(List<String> items, TextStyle style, [maxItems]) {
+  static double measureLongest(List<String> items, TextStyle style,
+      [maxItems]) {
     double l = 0;
     if (maxItems != null && maxItems < items.length) {
       items.length = maxItems;
@@ -49,7 +55,8 @@ class StringUtils {
     return $strings.yearFormat(yr.abs().toString(), getYrSuffix(yr));
   }
 
-  static String getYrSuffix(int yr) => yr < 0 ? $strings.yearBCE : $strings.yearCE;
+  static String getYrSuffix(int yr) =>
+      yr < 0 ? $strings.yearBCE : $strings.yearCE;
 
   static String getEra(int yr) {
     if (yr <= -600) return $strings.eraPrehistory;

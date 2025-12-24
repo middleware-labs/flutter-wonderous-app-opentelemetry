@@ -1,7 +1,7 @@
 import 'dart:isolate';
 
 import 'package:flutter/material.dart';
-import 'package:flutterrific_opentelemetry/flutterrific_opentelemetry.dart';
+import 'package:middleware_flutter_opentelemetry/middleware_flutter_opentelemetry.dart';
 import 'package:wondrous_opentelemetry/common_libs.dart';
 import 'package:wondrous_opentelemetry/logic/data/wonder_data.dart';
 import 'package:wondrous_opentelemetry/otel/weather/weather_service.dart';
@@ -178,8 +178,7 @@ class _WonderWeatherState extends State<WonderWeather> {
             if (_error != null)
               Text(
                 _error!,
-                style:
-                    $styles.text.body.copyWith(color: errorRed),
+                style: $styles.text.body.copyWith(color: errorRed),
               )
             else if (_weatherData != null)
               Column(

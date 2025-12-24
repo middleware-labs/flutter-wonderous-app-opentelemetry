@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
+import 'package:middleware_flutter_opentelemetry/middleware_flutter_opentelemetry.dart';
 import 'package:wondrous_opentelemetry/common_libs.dart';
 import 'package:wondrous_opentelemetry/logic/common/animate_utils.dart';
 import 'package:wondrous_opentelemetry/logic/common/debouncer.dart';

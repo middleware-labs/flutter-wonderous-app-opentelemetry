@@ -1,17 +1,24 @@
 import 'package:wondrous_opentelemetry/common_libs.dart';
 
 class FullscreenKeyboardListener extends StatefulWidget {
-  const FullscreenKeyboardListener({super.key, required this.child, this.onKeyDown, this.onKeyUp, this.onKeyRepeat});
+  const FullscreenKeyboardListener(
+      {super.key,
+      required this.child,
+      this.onKeyDown,
+      this.onKeyUp,
+      this.onKeyRepeat});
   final Widget child;
   final bool Function(KeyDownEvent event)? onKeyDown;
   final bool Function(KeyUpEvent event)? onKeyUp;
   final bool Function(KeyRepeatEvent event)? onKeyRepeat;
 
   @override
-  State<FullscreenKeyboardListener> createState() => _FullscreenKeyboardListenerState();
+  State<FullscreenKeyboardListener> createState() =>
+      _FullscreenKeyboardListenerState();
 }
 
-class _FullscreenKeyboardListenerState extends State<FullscreenKeyboardListener> {
+class _FullscreenKeyboardListenerState
+    extends State<FullscreenKeyboardListener> {
   @override
   void initState() {
     super.initState();

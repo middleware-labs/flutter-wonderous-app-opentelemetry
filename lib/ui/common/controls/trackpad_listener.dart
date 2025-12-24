@@ -22,7 +22,8 @@ class _TrackpadListenerState extends State<TrackpadListener> {
 
   void _handleTrackpadEvent(PointerSignalEvent event) {
     // Directly process the event here.
-    if (event is PointerScrollEvent && event.kind == PointerDeviceKind.trackpad) {
+    if (event is PointerScrollEvent &&
+        event.kind == PointerDeviceKind.trackpad) {
       Offset newScroll = _scrollOffset + event.scrollDelta;
       newScroll = Offset(
         newScroll.dx.clamp(-widget.scrollSensitivity, widget.scrollSensitivity),

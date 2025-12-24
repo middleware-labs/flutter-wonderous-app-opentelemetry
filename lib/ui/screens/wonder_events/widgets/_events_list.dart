@@ -21,8 +21,9 @@ class _EventsList extends StatefulWidget {
 }
 
 class _EventsListState extends State<_EventsList> {
-  late final ScrollController _scroller = ScrollController(initialScrollOffset: widget.initialScrollOffset)
-    ..addListener(() => widget.onScroll(_scroller.offset));
+  late final ScrollController _scroller =
+      ScrollController(initialScrollOffset: widget.initialScrollOffset)
+        ..addListener(() => widget.onScroll(_scroller.offset));
 
   @override
   void dispose() {
@@ -32,7 +33,10 @@ class _EventsListState extends State<_EventsList> {
 
   @override
   Widget build(BuildContext context) {
-    return FocusTraversalGroup(child: widget.blurOnScroll ? _buildScrollingListWithBlur() : _buildScrollingList());
+    return FocusTraversalGroup(
+        child: widget.blurOnScroll
+            ? _buildScrollingListWithBlur()
+            : _buildScrollingList());
   }
 
   /// The actual content of the scrolling list
@@ -41,7 +45,9 @@ class _EventsListState extends State<_EventsList> {
       return Container(
         width: 35,
         height: 5,
-        decoration: BoxDecoration(color: $styles.colors.greyMedium, borderRadius: BorderRadius.circular(99)),
+        decoration: BoxDecoration(
+            color: $styles.colors.greyMedium,
+            borderRadius: BorderRadius.circular(99)),
       );
     }
 
@@ -110,7 +116,9 @@ class _EventsListState extends State<_EventsList> {
           double maxScroll = 300;
           double scrollPx = _scroller.position.pixels - blurStart;
           // Normalize scroll position to a value between 0 and 1
-          backdropAmt = (_scroller.position.pixels - blurStart).clamp(0, maxScroll) / maxScroll;
+          backdropAmt =
+              (_scroller.position.pixels - blurStart).clamp(0, maxScroll) /
+                  maxScroll;
           // Disable backdrop once it is offscreen for an easy perf win
           showBackdrop = (scrollPx <= 1000);
         }

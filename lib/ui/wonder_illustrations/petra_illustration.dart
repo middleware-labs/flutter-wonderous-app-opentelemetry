@@ -77,8 +77,10 @@ class PetraIllustration extends StatelessWidget {
           const double scaleX = 5;
           return FractionalTranslation(
             translation: Offset(-1 - scaleX / 2, 0),
-            child:
-                Transform.scale(scaleX: 5, child: Container(color: WonderType.petra.fgColor.withOpacity(anim.value))),
+            child: Transform.scale(
+                scaleX: 5,
+                child: Container(
+                    color: WonderType.petra.fgColor.withOpacity(anim.value))),
           );
         },
       ),
@@ -95,8 +97,10 @@ class PetraIllustration extends StatelessWidget {
           const double scaleX = 5;
           return FractionalTranslation(
             translation: Offset(1 + scaleX / 2, 0),
-            child:
-                Transform.scale(scaleX: 5, child: Container(color: WonderType.petra.fgColor.withOpacity(anim.value))),
+            child: Transform.scale(
+                scaleX: 5,
+                child: Container(
+                    color: WonderType.petra.fgColor.withOpacity(anim.value))),
           );
         },
       ),

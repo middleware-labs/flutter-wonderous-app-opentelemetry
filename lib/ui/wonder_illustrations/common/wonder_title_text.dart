@@ -7,7 +7,8 @@ import 'package:wondrous_opentelemetry/logic/data/wonder_data.dart';
 /// - of/the should be down-sized
 /// Accomplished using a set of TextSpans, and a white list of 'small words'
 class WonderTitleText extends StatelessWidget {
-  const WonderTitleText(this.data, {super.key, this.enableShadows = false, this.enableHero = true});
+  const WonderTitleText(this.data,
+      {super.key, this.enableShadows = false, this.enableHero = true});
   final WonderData data;
   final bool enableShadows;
   final bool enableHero;
@@ -16,7 +17,8 @@ class WonderTitleText extends StatelessWidget {
     var textStyle = $styles.text.wonderTitle.copyWith(
       color: $styles.colors.offWhite,
     );
-    bool smallText = [WonderType.christRedeemer, WonderType.colosseum].contains(data.type);
+    bool smallText =
+        [WonderType.christRedeemer, WonderType.colosseum].contains(data.type);
     if (smallText) {
       textStyle = textStyle.copyWith(fontSize: 56 * $styles.scale);
     }
@@ -37,7 +39,9 @@ class WonderTitleText extends StatelessWidget {
       }
       return TextSpan(
         text: '$text${addLinebreak ? '\n' : addSpace ? ' ' : ''}',
-        style: useSmallText ? textStyle.copyWith(fontSize: 20 * $styles.scale) : textStyle,
+        style: useSmallText
+            ? textStyle.copyWith(fontSize: 20 * $styles.scale)
+            : textStyle,
       );
     }
 

@@ -28,10 +28,16 @@ class _AnimatedCutoutOverlay extends StatelessWidget {
       children: [
         child,
         Animate(
-          effects: [CustomEffect(builder: _buildAnimatedCutout, curve: Curves.easeOut, duration: duration)],
+          effects: [
+            CustomEffect(
+                builder: _buildAnimatedCutout,
+                curve: Curves.easeOut,
+                duration: duration)
+          ],
           key: animationKey,
           onComplete: (c) => c.reverse(),
-          child: IgnorePointer(child: Container(color: Colors.black.withOpacity(opacity))),
+          child: IgnorePointer(
+              child: Container(color: Colors.black.withOpacity(opacity))),
         ),
       ],
     );
@@ -77,5 +83,6 @@ class _CutoutClipper extends CustomClipper<Path> {
   }
 
   @override
-  bool shouldReclip(_CutoutClipper oldClipper) => oldClipper.cutoutSize != cutoutSize;
+  bool shouldReclip(_CutoutClipper oldClipper) =>
+      oldClipper.cutoutSize != cutoutSize;
 }

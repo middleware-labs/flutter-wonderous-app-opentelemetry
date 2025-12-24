@@ -14,7 +14,8 @@ part 'widgets/_bottom_text_content.dart';
 part 'widgets/_collapsing_carousel_item.dart';
 
 class ArtifactCarouselScreen extends StatefulWidget {
-  const ArtifactCarouselScreen({super.key, required this.type, this.contentPadding = EdgeInsets.zero});
+  const ArtifactCarouselScreen(
+      {super.key, required this.type, this.contentPadding = EdgeInsets.zero});
   final WonderType type;
   final EdgeInsets contentPadding;
 
@@ -26,7 +27,8 @@ class _ArtifactScreenState extends State<ArtifactCarouselScreen> {
   PageController? _pageController;
   final _currentPage = ValueNotifier<double>(9999);
 
-  late final List<HighlightData> _artifacts = HighlightData.forWonder(widget.type);
+  late final List<HighlightData> _artifacts =
+      HighlightData.forWonder(widget.type);
   late final _currentArtifactIndex = ValueNotifier<int>(_wrappedPageIndex);
 
   int get _wrappedPageIndex => _currentPage.value.round() % _artifacts.length;
@@ -55,7 +57,8 @@ class _ArtifactScreenState extends State<ArtifactCarouselScreen> {
   @override
   Widget build(BuildContext context) {
     bool shortMode = context.heightPx <= 800;
-    final double bottomHeight = context.heightPx / 2.75; // Prev 340, dynamic seems to work better
+    final double bottomHeight =
+        context.heightPx / 2.75; // Prev 340, dynamic seems to work better
     // Allow objects to become wider as the screen becomes tall, this allows
     // them to grow taller as well, filling the available space better.
     double itemHeight = (context.heightPx - 200 - bottomHeight).clamp(250, 400);

@@ -1,10 +1,13 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:http/http.dart' as http;
+import 'package:middleware_flutter_opentelemetry/middleware_flutter_opentelemetry.dart';
+import 'package:middleware_flutter_opentelemetry/src/util/otel_config.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:wondrous_opentelemetry/common_libs.dart';
 import 'package:wondrous_opentelemetry/logic/artifact_api_logic.dart';
@@ -16,9 +19,8 @@ import 'package:wondrous_opentelemetry/logic/timeline_logic.dart';
 import 'package:wondrous_opentelemetry/logic/unsplash_logic.dart';
 import 'package:wondrous_opentelemetry/logic/wonders_logic.dart';
 import 'package:wondrous_opentelemetry/ui/common/app_shortcuts.dart';
-import 'package:flutterrific_opentelemetry/flutterrific_opentelemetry.dart';
-import 'package:device_info_plus/device_info_plus.dart';
-import 'package:flutterrific_opentelemetry/src/util/otel_config.dart';
+
+import 'package:wondrous_opentelemetry/l10n/app_localizations.dart';
 
 void main() async {
   FlutterError.onError = (FlutterErrorDetails details) {
@@ -43,13 +45,10 @@ void main() async {
 
   runZonedGuarded(() async {
     WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
-  // Keep native splash screen up until app is finished bootstrapping
+    // Keep native splash screen up until app is finished bootstrapping
     if (!kIsWeb) {
       FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
     }
-
-    ///Flutterrific OTel initialization
-    var sessionId = DateTime.now(); //synthetic session id
 
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
 
@@ -57,66 +56,54 @@ void main() async {
     OTelLog.metricLogFunction = null;
     OTelLog.exportLogFunction = null;
     OTelLog.spanLogFunction = debugPrint;
+    const target = '<target>';
+    const middlewareAccountKey = '<key>';
 
     // Platform-specific metric exporter configuration
     late final MetricExporter otlpMetricExporter;
     late final MetricReader metricReader;
 
-    if (kIsWeb) {
-      // Web platform - use HTTP exporter
-      // Use the base endpoint - exporter will add /v1/metrics automatically
-      debugPrint('🌐 WEB PLATFORM: Creating HTTP exporter for ${OTelConfig.endpoint}');
-      otlpMetricExporter = OtlpHttpMetricExporter(
-        OtlpHttpMetricExporterConfig(
-          endpoint: OTelConfig.endpoint,
-          headers: {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*',
-          },
-        ),
-      );
-      
-      // Shorter interval for web testing
-      metricReader = PeriodicExportingMetricReader(
-        otlpMetricExporter,
-        interval: Duration(seconds: 5), // Export every 5 seconds for web
-      );
-    } else {
-      // Mobile/Desktop - use gRPC exporter
-      debugPrint('📱 NATIVE PLATFORM: Creating gRPC exporter');
-      otlpMetricExporter = OtlpGrpcMetricExporter(
-        OtlpGrpcMetricExporterConfig(
-          endpoint: OTelConfig.endpoint,
-          insecure: !OTelConfig.secure,
-        ),
-      );
+    // Web platform - use HTTP exporter
+    // Use the base endpoint - exporter will add /v1/metrics automatically
+    debugPrint('🌐 WEB PLATFORM: Creating HTTP exporter for ${target}');
+    otlpMetricExporter = OtlpHttpMetricExporter(
+      OtlpHttpMetricExporterConfig(
+        endpoint: target,
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+          'Authorization': middlewareAccountKey,
+          'Origin': 'sdk.middleware.io',
+        },
+      ),
+    );
 
-      metricReader = PeriodicExportingMetricReader(
-        otlpMetricExporter,
-        interval: Duration(seconds: 3), // Export every 3 seconds for mobile
-      );
-    }
+    // Shorter interval for web testing
+    metricReader = PeriodicExportingMetricReader(
+      otlpMetricExporter,
+      interval: Duration(seconds: 5), // Export every 5 seconds for web
+    );
 
     // Print configuration for debugging
     OTelConfig.printConfig();
     if (kDebugMode) {
-      debugPrint('Using ${kIsWeb ? 'HTTP' : 'gRPC'} exporter for ${kIsWeb ? 'web' : 'native'} platform');
+      debugPrint(
+          'Using ${kIsWeb ? 'HTTP' : 'gRPC'} exporter for ${kIsWeb ? 'web' : 'native'} platform');
     }
 
     await FlutterOTel.initialize(
-        serviceName: 'wondrous-flutterotel',
-        endpoint: OTelConfig.endpoint, // Use configured endpoint for all platforms
+        serviceName: 'middleware-flutter',
+        endpoint: target,
+        // Use configured endpoint for all platforms
         secure: OTelConfig.secure,
         serviceVersion: '1.0.0',
         //configures the default trace, consider making other tracers for isolates, etc.
         tracerName: 'ui',
+        enableMetrics: true,
         tracerVersion: '1.0.0',
         metricExporter: otlpMetricExporter,
         metricReader: metricReader,
-        //OTel standard tenant_id, required for Dartastic.io
-        tenantId: 'valued-saas-customer-id',
-        //required for the Dartastic.io backend
-        // dartasticApiKey: '123456',
+        middlewareAccountKey: middlewareAccountKey,
         resourceAttributes: <String, Object>{
           // Always consult the OTel Semantic Conventions to find an existing
           // convention name for an attribute.  Semantics are evolving.
@@ -124,25 +111,25 @@ void main() async {
           //--dart-define environment=dev
           //See https://opentelemetry.io/docs/specs/semconv/resource/deployment-environment/
           EnvironmentResource.deploymentEnvironment.key: 'dev',
+          'env': 'dev',
           // TODO ...await resourcesForDeviceInfo(deviceInfoPlugin),
           AppInfoSemantics.appName.key: packageInfo.appName,
           AppInfoSemantics.appPackageName.key: packageInfo.packageName,
           AppInfoSemantics.appVersion.key: packageInfo.version,
           AppInfoSemantics.appBuildNumber.key: packageInfo.buildNumber,
-          'platform': kIsWeb ? 'web' : Platform.operatingSystem,
         }.toAttributes(),
         commonAttributesFunction: () => <String, Object>{
               // These attributes will usually change over time in a real app,
               // ensure that no null values are included.
-              UserSemantics.userId.key: 'wondrousOTelUser1',
-              UserSemantics.userRole.key: 'demoUser',
-              UserSemantics.userSession.key: sessionId
+              'name': 'wondrousOTelUser1',
+              'email': 'sample@example.com',
+              'user_type': 'admin',
             }.toAttributes());
 
     GoRouter.optionURLReflectsImperativeAPIs = true;
 
-  // Start app
-  registerSingletons();
+    // Start app
+    registerSingletons();
 
     // Send initial test metric to verify connection
     Timer(Duration(seconds: 2), () {
@@ -161,10 +148,10 @@ void main() async {
             'startup_phase': 'initialization_complete',
           },
         );
-        
+
         // Force flush to ensure the test metric is sent immediately
         OTel.meterProvider().forceFlush();
-        
+
         if (kDebugMode) {
           debugPrint('Test metric sent and flushed');
         }
@@ -213,13 +200,15 @@ void main() async {
   });
 }
 
-Future<Map<String, Object>> resourcesForDeviceInfo(DeviceInfoPlugin deviceInfoPlugin) async {
+Future<Map<String, Object>> resourcesForDeviceInfo(
+    DeviceInfoPlugin deviceInfoPlugin) async {
   try {
     if (!kIsWeb) {
       if (Platform.isIOS) {
         final deviceInfo = await deviceInfoPlugin.iosInfo;
         return {
-          DeviceSemantics.deviceId.key: deviceInfo.identifierForVendor ?? 'no_id',
+          DeviceSemantics.deviceId.key:
+              deviceInfo.identifierForVendor ?? 'no_id',
           DeviceSemantics.deviceModel.key: deviceInfo.model,
           DeviceSemantics.devicePlatform.key: deviceInfo.systemName,
           DeviceSemantics.deviceOsVersion.key: deviceInfo.systemVersion,
@@ -267,6 +256,9 @@ class _WondersAppState extends State<WondersApp> with GetItStateMixin {
     if (kIsWeb) {
       appLogic.precacheWonderImages(context);
     }
+    Timer(Duration(milliseconds: 500), () {
+      FlutterOTel.startSessionRecording();
+    });
     // Send app launch metric
     Timer(Duration(milliseconds: 500), () {
       try {
@@ -275,7 +267,8 @@ class _WondersAppState extends State<WondersApp> with GetItStateMixin {
           Duration(milliseconds: 500),
           attributes: {
             'widget': 'WondersApp',
-            'platform': kIsWeb ? 'web' : (Platform.isAndroid ? 'android' : 'ios'),
+            'platform':
+                kIsWeb ? 'web' : (Platform.isAndroid ? 'android' : 'ios'),
           },
         );
       } catch (e) {
@@ -292,6 +285,7 @@ class _WondersAppState extends State<WondersApp> with GetItStateMixin {
     try {
       //TODO - should be a mixin or a widget or hidden in FlutterOTel something simpler
       MetricsService.dispose();
+      FlutterOTel.stopSessionRecording();
 
       // Force flush before disposing to ensure all metrics are sent
       OTel.meterProvider().forceFlush();
@@ -313,23 +307,26 @@ class _WondersAppState extends State<WondersApp> with GetItStateMixin {
   Widget build(BuildContext context) {
     final locale = watchX((SettingsLogic s) => s.currentLocale);
     var routerDelegate = appRouter.routerDelegate;
-    return MaterialApp.router(
-      routeInformationProvider: appRouter.routeInformationProvider,
-      routeInformationParser: appRouter.routeInformationParser,
-      locale: locale == null ? null : Locale(locale),
-      debugShowCheckedModeBanner: false,
-      routerDelegate: routerDelegate,
-      shortcuts: AppShortcuts.defaults,
-      theme: ThemeData(fontFamily: $styles.text.body.fontFamily, useMaterial3: true),
-      color: $styles.colors.black,
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: AppLocalizations.supportedLocales,
-    );
+    return RepaintBoundary(
+        key: FlutterOTel.repaintBoundaryKey,
+        child: MaterialApp.router(
+          routeInformationProvider: appRouter.routeInformationProvider,
+          routeInformationParser: appRouter.routeInformationParser,
+          locale: locale == null ? null : Locale(locale),
+          debugShowCheckedModeBanner: false,
+          routerDelegate: routerDelegate,
+          shortcuts: AppShortcuts.defaults,
+          theme: ThemeData(
+              fontFamily: $styles.text.body.fontFamily, useMaterial3: true),
+          color: $styles.colors.black,
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: AppLocalizations.supportedLocales,
+        ));
   }
 }
 
@@ -353,20 +350,30 @@ void registerSingletons() {
   // Localizations
   GetIt.I.registerLazySingleton<LocaleLogic>(() => LocaleLogic());
   // Home Widget Service
-  GetIt.I.registerLazySingleton<NativeWidgetService>(() => NativeWidgetService());
+  GetIt.I
+      .registerLazySingleton<NativeWidgetService>(() => NativeWidgetService());
+  GetIt.I.registerLazySingleton<http.Client>(() => http.Client().instrument());
 }
 
 /// Add syntax sugar for quickly accessing the main "logic" controllers in the app
 /// We deliberately do not create shortcuts for services, to discourage their use directly in the view/widget layer.
 AppLogic get appLogic => GetIt.I.get<AppLogic>();
+
 WondersLogic get wondersLogic => GetIt.I.get<WondersLogic>();
+
 TimelineLogic get timelineLogic => GetIt.I.get<TimelineLogic>();
+
 SettingsLogic get settingsLogic => GetIt.I.get<SettingsLogic>();
+
 UnsplashLogic get unsplashLogic => GetIt.I.get<UnsplashLogic>();
+
 ArtifactAPILogic get artifactLogic => GetIt.I.get<ArtifactAPILogic>();
+
 CollectiblesLogic get collectiblesLogic => GetIt.I.get<CollectiblesLogic>();
+
 LocaleLogic get localeLogic => GetIt.I.get<LocaleLogic>();
 
 /// Global helpers for readability
 AppLocalizations get $strings => localeLogic.strings;
+
 AppStyle get $styles => WondersAppScaffold.style;

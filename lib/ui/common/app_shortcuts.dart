@@ -2,7 +2,8 @@ import 'package:flutter/foundation.dart';
 import 'package:wondrous_opentelemetry/common_libs.dart';
 
 class AppShortcuts {
-  static final Map<ShortcutActivator, Intent> _defaultWebAndDesktopShortcuts = <ShortcutActivator, Intent>{
+  static final Map<ShortcutActivator, Intent> _defaultWebAndDesktopShortcuts =
+      <ShortcutActivator, Intent>{
     // Activation
     if (kIsWeb) ...{
       // On the web, enter activates buttons, but not other controls.
@@ -23,14 +24,18 @@ class AppShortcuts {
     SingleActivator(LogicalKeyboardKey.tab, shift: true): PreviousFocusIntent(),
 
     // Scrolling
-    SingleActivator(LogicalKeyboardKey.arrowUp): ScrollIntent(direction: AxisDirection.up),
-    SingleActivator(LogicalKeyboardKey.arrowDown): ScrollIntent(direction: AxisDirection.down),
-    SingleActivator(LogicalKeyboardKey.arrowLeft): ScrollIntent(direction: AxisDirection.left),
-    SingleActivator(LogicalKeyboardKey.arrowRight): ScrollIntent(direction: AxisDirection.right),
-    SingleActivator(LogicalKeyboardKey.pageUp):
-        ScrollIntent(direction: AxisDirection.up, type: ScrollIncrementType.page),
-    SingleActivator(LogicalKeyboardKey.pageDown):
-        ScrollIntent(direction: AxisDirection.down, type: ScrollIncrementType.page),
+    SingleActivator(LogicalKeyboardKey.arrowUp):
+        ScrollIntent(direction: AxisDirection.up),
+    SingleActivator(LogicalKeyboardKey.arrowDown):
+        ScrollIntent(direction: AxisDirection.down),
+    SingleActivator(LogicalKeyboardKey.arrowLeft):
+        ScrollIntent(direction: AxisDirection.left),
+    SingleActivator(LogicalKeyboardKey.arrowRight):
+        ScrollIntent(direction: AxisDirection.right),
+    SingleActivator(LogicalKeyboardKey.pageUp): ScrollIntent(
+        direction: AxisDirection.up, type: ScrollIncrementType.page),
+    SingleActivator(LogicalKeyboardKey.pageDown): ScrollIntent(
+        direction: AxisDirection.down, type: ScrollIncrementType.page),
   };
 
   static Map<ShortcutActivator, Intent>? get defaults {

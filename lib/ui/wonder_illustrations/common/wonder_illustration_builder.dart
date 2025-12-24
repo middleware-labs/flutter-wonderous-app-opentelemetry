@@ -15,19 +15,25 @@ class WonderIllustrationBuilder extends StatefulWidget {
     required this.bgBuilder,
     required this.wonderType,
   });
-  final List<Widget> Function(BuildContext context, Animation<double> animation) fgBuilder;
-  final List<Widget> Function(BuildContext context, Animation<double> animation) mgBuilder;
-  final List<Widget> Function(BuildContext context, Animation<double> animation) bgBuilder;
+  final List<Widget> Function(BuildContext context, Animation<double> animation)
+      fgBuilder;
+  final List<Widget> Function(BuildContext context, Animation<double> animation)
+      mgBuilder;
+  final List<Widget> Function(BuildContext context, Animation<double> animation)
+      bgBuilder;
   final WonderIllustrationConfig config;
   final WonderType wonderType;
 
   @override
-  State<WonderIllustrationBuilder> createState() => WonderIllustrationBuilderState();
+  State<WonderIllustrationBuilder> createState() =>
+      WonderIllustrationBuilderState();
 }
 
-class WonderIllustrationBuilderState extends State<WonderIllustrationBuilder> with SingleTickerProviderStateMixin {
-  late final anim = AnimationController(vsync: this, duration: $styles.times.med * .75)
-    ..addListener(() => setState(() {}));
+class WonderIllustrationBuilderState extends State<WonderIllustrationBuilder>
+    with SingleTickerProviderStateMixin {
+  late final anim =
+      AnimationController(vsync: this, duration: $styles.times.med * .75)
+        ..addListener(() => setState(() {}));
 
   bool get isShowing => widget.config.isShowing;
   @override
@@ -54,7 +60,8 @@ class WonderIllustrationBuilderState extends State<WonderIllustrationBuilder> wi
   Widget build(BuildContext context) {
     // Optimization: no need to return all of these children if the widget is fully invisible.
     if (anim.value == 0 && widget.config.enableAnims) return SizedBox.expand();
-    Animation<double> animation = widget.config.enableAnims ? anim : AlwaysStoppedAnimation(1);
+    Animation<double> animation =
+        widget.config.enableAnims ? anim : AlwaysStoppedAnimation(1);
 
     return Provider<WonderIllustrationBuilderState>.value(
       value: this,

@@ -9,7 +9,8 @@ class FullscreenMapsViewer extends StatelessWidget {
   final WonderType type;
 
   WonderData get data => wondersLogic.getData(type);
-  late final startPos = CameraPosition(target: LatLng(data.lat, data.lng), zoom: 17);
+  late final startPos =
+      CameraPosition(target: LatLng(data.lat, data.lng), zoom: 17);
 
   @override
   Widget build(BuildContext context) {

@@ -1,8 +1,13 @@
 part of '../editorial_screen.dart';
 
 class _CircularTitleBar extends StatelessWidget {
-  const _CircularTitleBar({super.key, required this.titles, required this.icons, required this.index})
-      : assert(titles.length == icons.length, 'The number of titles and icons do not match.');
+  const _CircularTitleBar(
+      {super.key,
+      required this.titles,
+      required this.icons,
+      required this.index})
+      : assert(titles.length == icons.length,
+            'The number of titles and icons do not match.');
   final List<String> titles;
   final List<String> icons;
   final int index;
@@ -12,7 +17,8 @@ class _CircularTitleBar extends StatelessWidget {
     double barSize = 100; // the actual size of this widget
     double barTopPadding = 40; // negative space at the top of the bar
     double circleSize = 190; // circle is bigger than bar, and overhangs it
-    assert(index >= 0 && index < titles.length, 'Can not find a title for index $index');
+    assert(index >= 0 && index < titles.length,
+        'Can not find a title for index $index');
     // note: this offset eliminates a subpixel line Flutter draws below the header
     return Transform.translate(
       offset: Offset(0, 1),
@@ -21,7 +27,10 @@ class _CircularTitleBar extends StatelessWidget {
         child: Stack(
           children: [
             // Bg
-            BottomCenter(child: Container(height: barSize - barTopPadding, color: $styles.colors.offWhite)),
+            BottomCenter(
+                child: Container(
+                    height: barSize - barTopPadding,
+                    color: $styles.colors.offWhite)),
 
             ClipRect(
               child: OverflowBox(
@@ -34,8 +43,14 @@ class _CircularTitleBar extends StatelessWidget {
             BottomCenter(
               child: Padding(
                 padding: EdgeInsets.only(bottom: 20),
-                child: Image.asset('${ImagePaths.common}/${icons[index]}').maybeAnimate(key: ValueKey(index)).fade().scale(
-                    begin: Offset(.5, .5), end: Offset(1, 1), curve: Curves.easeOutBack, duration: $styles.times.med),
+                child: Image.asset('${ImagePaths.common}/${icons[index]}')
+                    .maybeAnimate(key: ValueKey(index))
+                    .fade()
+                    .scale(
+                        begin: Offset(.5, .5),
+                        end: Offset(1, 1),
+                        curve: Curves.easeOutBack,
+                        duration: $styles.times.med),
               ),
             ),
           ],
@@ -56,10 +71,12 @@ class _AnimatedCircleWithText extends StatefulWidget {
   final int index;
 
   @override
-  State<_AnimatedCircleWithText> createState() => _AnimatedCircleWithTextState();
+  State<_AnimatedCircleWithText> createState() =>
+      _AnimatedCircleWithTextState();
 }
 
-class _AnimatedCircleWithTextState extends State<_AnimatedCircleWithText> with SingleTickerProviderStateMixin {
+class _AnimatedCircleWithTextState extends State<_AnimatedCircleWithText>
+    with SingleTickerProviderStateMixin {
   int _prevIndex = -1;
   String get oldTitle => _prevIndex == -1 ? '' : widget.titles[_prevIndex];
   String get newTitle => widget.titles[widget.index];
@@ -98,7 +115,8 @@ class _AnimatedCircleWithTextState extends State<_AnimatedCircleWithText> with S
         return Transform.rotate(
           angle: Curves.easeInOut.transform(_anim.value) * rot,
           child: Container(
-            decoration: BoxDecoration(shape: BoxShape.circle, color: $styles.colors.offWhite),
+            decoration: BoxDecoration(
+                shape: BoxShape.circle, color: $styles.colors.offWhite),
             alignment: Alignment.center,
             child: Padding(
               padding: const EdgeInsets.all(16),
@@ -112,12 +130,14 @@ class _AnimatedCircleWithTextState extends State<_AnimatedCircleWithText> with S
                   children: [
                     Transform.rotate(
                       angle: _anim.isCompleted ? rot : 0,
-                      child: _buildCircularText(_anim.isCompleted ? newTitle : oldTitle),
+                      child: _buildCircularText(
+                          _anim.isCompleted ? newTitle : oldTitle),
                     ),
                     if (!_anim.isCompleted) ...[
                       Transform.rotate(
                         angle: _anim.isCompleted ? 0 : rot,
-                        child: _buildCircularText(_anim.isCompleted ? oldTitle : newTitle),
+                        child: _buildCircularText(
+                            _anim.isCompleted ? oldTitle : newTitle),
                       ),
                     ]
                   ],

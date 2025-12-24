@@ -8,7 +8,8 @@ class ChristRedeemerData extends WonderData {
   ChristRedeemerData()
       : super(
           searchData: _searchData, // included as a part from ./search/
-          searchSuggestions: _searchSuggestions, // included as a part from ./search/
+          searchSuggestions:
+              _searchSuggestions, // included as a part from ./search/
           type: WonderType.christRedeemer,
           title: $strings.christRedeemerTitle,
           subTitle: $strings.christRedeemerSubTitle,

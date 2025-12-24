@@ -8,7 +8,8 @@ class PetraData extends WonderData {
   PetraData()
       : super(
           searchData: _searchData, // included as a part from ./search/
-          searchSuggestions: _searchSuggestions, // included as a part from ./search/
+          searchSuggestions:
+              _searchSuggestions, // included as a part from ./search/
           type: WonderType.petra,
           title: $strings.petraTitle,
           subTitle: $strings.petraSubTitle,

@@ -22,7 +22,8 @@ class _CollectionList extends StatefulWidget with GetItStatefulWidgetMixin {
 class _CollectionListState extends State<_CollectionList> with GetItStateMixin {
   final ScrollController scrollController = ScrollController();
 
-  late final ValueNotifier<bool> _vtMode = ValueNotifier(true)..addListener(_maintainScrollPos);
+  late final ValueNotifier<bool> _vtMode = ValueNotifier(true)
+    ..addListener(_maintainScrollPos);
 
   WonderType? get scrollTargetWonder {
     CollectibleData? item;
@@ -38,7 +39,8 @@ class _CollectionListState extends State<_CollectionList> with GetItStateMixin {
   // Multiplies or divides the current scroll position by the ratio of the vertical and horizontal card extents.
   void _maintainScrollPos() {
     if (scrollController.hasClients == false) return;
-    const extentFactor = _CollectionList._vtCardExtent / _CollectionList._hzCardExtent;
+    const extentFactor =
+        _CollectionList._vtCardExtent / _CollectionList._hzCardExtent;
     final currentPx = scrollController.position.pixels;
     if (_vtMode.value == true) {
       scrollController.jumpTo(currentPx * extentFactor);
@@ -92,6 +94,9 @@ class _CollectionListState extends State<_CollectionList> with GetItStateMixin {
       isSecondary: true,
       expand: true,
     );
-    return AnimatedOpacity(opacity: widget.onReset == null ? 0.25 : 1, duration: $styles.times.fast, child: btn);
+    return AnimatedOpacity(
+        opacity: widget.onReset == null ? 0.25 : 1,
+        duration: $styles.times.fast,
+        child: btn);
   }
 }

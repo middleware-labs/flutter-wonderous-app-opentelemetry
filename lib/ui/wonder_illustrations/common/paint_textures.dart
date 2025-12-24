@@ -2,7 +2,12 @@ import 'package:wondrous_opentelemetry/common_libs.dart';
 
 class IllustrationTexture extends StatelessWidget {
   const IllustrationTexture(this.path,
-      {super.key, this.scale = 1, this.color, this.flipX = false, this.flipY = false, this.opacity});
+      {super.key,
+      this.scale = 1,
+      this.color,
+      this.flipX = false,
+      this.flipY = false,
+      this.opacity});
   final Color? color;
   final double scale;
   final bool flipX;

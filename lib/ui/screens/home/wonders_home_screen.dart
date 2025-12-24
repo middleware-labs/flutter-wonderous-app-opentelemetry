@@ -1,6 +1,12 @@
+import 'dart:convert';
+
+import 'package:http/http.dart' as http;
+import 'package:middleware_flutter_opentelemetry/middleware_flutter_opentelemetry.dart';
 import 'package:wondrous_opentelemetry/common_libs.dart';
 import 'package:wondrous_opentelemetry/logic/common/animate_utils.dart';
 import 'package:wondrous_opentelemetry/logic/data/wonder_data.dart';
+import 'package:wondrous_opentelemetry/otel/otel_debug_panel.dart';
+import 'package:wondrous_opentelemetry/otel/otel_test_widget.dart';
 import 'package:wondrous_opentelemetry/ui/common/app_icons.dart';
 import 'package:wondrous_opentelemetry/ui/common/controls/app_header.dart';
 import 'package:wondrous_opentelemetry/ui/common/controls/app_page_indicator.dart';
@@ -29,13 +35,16 @@ class HomeScreen extends StatefulWidget with GetItStatefulWidgetMixin {
 
 /// Shows a horizontally scrollable list PageView sandwiched between Foreground and Background layers
 /// arranged in a parallax style.
-class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateMixin {
+class _HomeScreenState extends State<HomeScreen>
+    with SingleTickerProviderStateMixin {
   late final PageController _pageController;
+
   List<WonderData> get _wonders => wondersLogic.all;
   bool _isMenuOpen = false;
 
   /// Set initial wonderIndex
   late int _wonderIndex = 0;
+
   int get _numWonders => _wonders.length;
 
   /// Used to polish the transition when leaving this page for the details view.
@@ -51,7 +60,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
 
   WonderData get currentWonder => _wonders[_wonderIndex];
 
-  late final _VerticalSwipeController _swipeController = _VerticalSwipeController(this, _showDetailsPage);
+  late final _VerticalSwipeController _swipeController =
+      _VerticalSwipeController(this, _showDetailsPage);
 
   bool _isSelected(WonderType t) => t == currentWonder.type;
 
@@ -63,7 +73,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     // allow 'infinite' scrolling by starting at a very high page number, add wonderIndex to start on the correct page
     final initialPage = _numWonders * 100 + _wonderIndex;
     // Create page controller,
-    _pageController = PageController(viewportFraction: 1, initialPage: initialPage);
+    _pageController =
+        PageController(viewportFraction: 1, initialPage: initialPage);
   }
 
   void _handlePageChanged(value) {
@@ -80,7 +91,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
 
   void _handleOpenMenuPressed() async {
     setState(() => _isMenuOpen = true);
-    WonderType? pickedWonder = await appLogic.showFullscreenDialogRoute<WonderType>(
+    WonderType? pickedWonder =
+        await appLogic.showFullscreenDialogRoute<WonderType>(
       context,
       HomeMenu(data: currentWonder),
       transparent: true,
@@ -96,17 +108,42 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     controller.value = 1;
   }
 
-  void _handlePageIndicatorDotPressed(int index) => _setPageIndex(index);
+  Future<void> _testHttpCall() async {
+    try {
+      final response = await http.get(
+        Uri.parse('https://jsonplaceholder.typicode.com/todos/1'),
+      );
 
-  void _handlePrevNext(int i) => _setPageIndex(_wonderIndex + i, animate: true);
+      if (response.statusCode == 200) {
+        final jsonData = json.decode(response.body);
+        debugPrint('Dummy JSON Response: $jsonData');
+      } else {
+        debugPrint('Request failed: ${response.statusCode}');
+      }
+    } catch (e) {
+      debugPrint('HTTP error: $e');
+    }
+  }
+
+  void _handlePageIndicatorDotPressed(int index) {
+    _testHttpCall();
+    _setPageIndex(index);
+  }
+
+  void _handlePrevNext(int i) {
+    _testHttpCall();
+    _setPageIndex(_wonderIndex + i, animate: true);
+  }
 
   void _setPageIndex(int index, {bool animate = false}) {
     if (index == _wonderIndex) return;
     // To support infinite scrolling, we can't jump directly to the pressed index. Instead, make it relative to our current position.
-    final pos = ((_pageController.page ?? 0) / _numWonders).floor() * _numWonders;
+    final pos =
+        ((_pageController.page ?? 0) / _numWonders).floor() * _numWonders;
     final newIndex = pos + index;
     if (animate == true) {
-      _pageController.animateToPage(newIndex, duration: $styles.times.med, curve: Curves.easeOutCubic);
+      _pageController.animateToPage(newIndex,
+          duration: $styles.times.med, curve: Curves.easeOutCubic);
     } else {
       _pageController.jumpToPage(newIndex);
     }
@@ -209,7 +246,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     return [
       // Background
       ..._wonders.map((e) {
-        final config = WonderIllustrationConfig.bg(isShowing: _isSelected(e.type));
+        final config =
+            WonderIllustrationConfig.bg(isShowing: _isSelected(e.type));
         return WonderIllustration(e.type, config: config);
       }),
       // Clouds
@@ -223,7 +261,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
 
   Widget _buildFgAndGradients() {
     Widget buildSwipeableBgGradient(Color fgColor) {
-      return _swipeController.buildListener(builder: (swipeAmt, isPointerDown, _) {
+      return _swipeController.buildListener(
+          builder: (swipeAmt, isPointerDown, _) {
         return IgnorePointerAndSemantics(
           child: FractionallySizedBox(
             heightFactor: .6,
@@ -234,7 +273,10 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                   end: Alignment.bottomCenter,
                   colors: [
                     fgColor.withOpacity(0),
-                    fgColor.withOpacity(.5 + fgColor.opacity * .25 + (isPointerDown ? .05 : 0) + swipeAmt * .20),
+                    fgColor.withOpacity(.5 +
+                        fgColor.opacity * .25 +
+                        (isPointerDown ? .05 : 0) +
+                        swipeAmt * .20),
                   ],
                   stops: const [0, 1],
                 ),
@@ -262,7 +304,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
           return Animate(
               effects: const [FadeEffect()],
               onPlay: _handleFadeAnimInit,
-              child: IgnorePointerAndSemantics(child: WonderIllustration(e.type, config: config)));
+              child: IgnorePointerAndSemantics(
+                  child: WonderIllustration(e.type, config: config)));
         });
       }),
 
@@ -304,7 +347,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                               onDecrease: () => _setPageIndex(_wonderIndex - 1),
                               onTap: () => _showDetailsPage(),
                               // Hide the title when the menu is open for visual polish
-                              child: WonderTitleText(currentWonder, enableShadows: true),
+                              child: WonderTitleText(currentWonder,
+                                  enableShadows: true),
                             ),
                             Gap($styles.insets.md),
                             AppPageIndicator(
@@ -340,18 +384,26 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                             return FractionallySizedBox(
                               alignment: Alignment.bottomCenter,
                               heightFactor: heightFactor,
-                              child: Opacity(opacity: swipeAmt * .5, child: child),
+                              child:
+                                  Opacity(opacity: swipeAmt * .5, child: child),
                             );
                           },
                           child: VtGradient(
-                            [$styles.colors.white.withOpacity(0), $styles.colors.white.withOpacity(1)],
+                            [
+                              $styles.colors.white.withOpacity(0),
+                              $styles.colors.white.withOpacity(1)
+                            ],
                             const [.3, 1],
                             borderRadius: BorderRadius.circular(99),
                           ),
                         )),
 
                         /// Arrow Btn that fades in and out
-                        _AnimatedArrowButton(onTap: _showDetailsPage, semanticTitle: currentWonder.title),
+                        _AnimatedArrowButton(
+                            onTap: _showDetailsPage,
+                            semanticTitle: currentWonder.title),
+                        OTelTestWidget(),
+                        OTelDebugPanel(),
                       ],
                     ),
                   ),

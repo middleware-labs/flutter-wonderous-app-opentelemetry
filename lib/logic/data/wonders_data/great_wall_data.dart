@@ -8,7 +8,8 @@ class GreatWallData extends WonderData {
   GreatWallData()
       : super(
           searchData: _searchData, // included as a part from ./search/
-          searchSuggestions: _searchSuggestions, // included as a part from ./search/
+          searchSuggestions:
+              _searchSuggestions, // included as a part from ./search/
           type: WonderType.greatWall,
           title: $strings.greatWallTitle,
           subTitle: $strings.greatWallSubTitle,
@@ -25,7 +26,8 @@ class GreatWallData extends WonderData {
           unsplashCollectionId: 'Kg_h04xvZEo',
           pullQuote1Top: $strings.greatWallPullQuote1Top,
           pullQuote1Bottom: $strings.greatWallPullQuote1Bottom,
-          pullQuote1Author: '', //No key because it doesn't generate for empty values
+          pullQuote1Author:
+              '', //No key because it doesn't generate for empty values
           pullQuote2: $strings.greatWallPullQuote2,
           pullQuote2Author: $strings.greatWallPullQuote2Author,
           callout1: $strings.greatWallCallout1,

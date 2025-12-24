@@ -8,7 +8,8 @@ class PyramidsGizaData extends WonderData {
   PyramidsGizaData()
       : super(
           searchData: _searchData, // included as a part from ./search/
-          searchSuggestions: _searchSuggestions, // included as a part from ./search/
+          searchSuggestions:
+              _searchSuggestions, // included as a part from ./search/
           type: WonderType.pyramidsGiza,
           title: $strings.pyramidsGizaTitle,
           subTitle: $strings.pyramidsGizaSubTitle,

@@ -25,7 +25,8 @@ class _ScrollingViewportController extends ChangeNotifier {
         final data = wondersLogic.getData(w);
         final pos = calculateScrollPosFromYear(data.startYr);
         scroller.jumpTo(pos - 200);
-        scroller.animateTo(pos, duration: $styles.times.extraSlow, curve: Curves.easeOutCubic);
+        scroller.animateTo(pos,
+            duration: $styles.times.extraSlow, curve: Curves.easeOutCubic);
         scroller.addListener(_updateCurrentYear);
       }
     });
@@ -54,7 +55,8 @@ class _ScrollingViewportController extends ChangeNotifier {
     double newMaxScroll = calculateContentHeight();
     final newPos = newMaxScroll * yrRatio;
     if (animate) {
-      scroller.animateTo(newPos, duration: $styles.times.med, curve: Curves.easeOut);
+      scroller.animateTo(newPos,
+          duration: $styles.times.med, curve: Curves.easeOut);
     } else {
       scroller.jumpTo(newPos);
     }
@@ -64,7 +66,8 @@ class _ScrollingViewportController extends ChangeNotifier {
   double calculateContentHeight() {
     //double minSize = 300;
     double vtPadding = _constraints.maxHeight / 2;
-    return lerpDouble(widget.minSize - vtPadding, widget.maxSize, _zoom) ?? widget.maxSize;
+    return lerpDouble(widget.minSize - vtPadding, widget.maxSize, _zoom) ??
+        widget.maxSize;
   }
 
   /// Derive current yr based on the scroll position and the current content height.

@@ -21,13 +21,16 @@ class _TitleText extends StatelessWidget {
 
                   /// Sub-title row
                   SeparatedRow(
-                    padding: EdgeInsets.symmetric(horizontal: $styles.insets.sm),
+                    padding:
+                        EdgeInsets.symmetric(horizontal: $styles.insets.sm),
                     separatorBuilder: () => Gap($styles.insets.sm),
                     children: [
                       Expanded(
                         child: Divider(
                           color: data.type.fgColor,
-                        ).maybeAnimate().scale(curve: Curves.easeOut, delay: 500.delayMs),
+                        )
+                            .maybeAnimate()
+                            .scale(curve: Curves.easeOut, delay: 500.delayMs),
                       ),
                       Semantics(
                         header: true,
@@ -40,7 +43,9 @@ class _TitleText extends StatelessWidget {
                       Expanded(
                         child: Divider(
                           color: data.type.fgColor,
-                        ).maybeAnimate().scale(curve: Curves.easeOut, delay: 500.delayMs),
+                        )
+                            .maybeAnimate()
+                            .scale(curve: Curves.easeOut, delay: 500.delayMs),
                       ),
                     ],
                   ),
@@ -52,7 +57,8 @@ class _TitleText extends StatelessWidget {
                     child: AnimatedBuilder(
                         animation: scroller,
                         builder: (_, __) {
-                          final yPos = ContextUtils.getGlobalPos(context)?.dy ?? 0;
+                          final yPos =
+                              ContextUtils.getGlobalPos(context)?.dy ?? 0;
                           bool enableHero = yPos > -100;
                           return WonderTitleText(data, enableHero: enableHero);
                         }),
@@ -70,7 +76,8 @@ class _TitleText extends StatelessWidget {
                   /// Compass divider
                   ExcludeSemantics(
                     child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: $styles.insets.sm),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: $styles.insets.sm),
                       child: AnimatedBuilder(
                         animation: scroller,
                         builder: (_, __) => CompassDivider(
@@ -85,7 +92,8 @@ class _TitleText extends StatelessWidget {
 
                   /// Date
                   Text(
-                    $strings.titleLabelDate(StringUtils.formatYr(data.startYr), StringUtils.formatYr(data.endYr)),
+                    $strings.titleLabelDate(StringUtils.formatYr(data.startYr),
+                        StringUtils.formatYr(data.endYr)),
                     style: $styles.text.h4,
                     textAlign: TextAlign.center,
                   ),

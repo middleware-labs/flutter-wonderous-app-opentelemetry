@@ -27,10 +27,12 @@ class ExpandingTimeRangeSelector extends StatefulWidget {
   final SearchVizController vizController;
 
   @override
-  State<ExpandingTimeRangeSelector> createState() => _ExpandingTimeRangeSelectorState();
+  State<ExpandingTimeRangeSelector> createState() =>
+      _ExpandingTimeRangeSelectorState();
 }
 
-class _ExpandingTimeRangeSelectorState extends State<ExpandingTimeRangeSelector> {
+class _ExpandingTimeRangeSelectorState
+    extends State<ExpandingTimeRangeSelector> {
   late final TimeRangePainter _painter;
 
   @override
@@ -44,20 +46,24 @@ class _ExpandingTimeRangeSelectorState extends State<ExpandingTimeRangeSelector>
   Widget build(BuildContext context) {
     final double pad = $styles.insets.sm;
     final bool isOpen = widget.panelController.value;
-    double safeBottom = max($styles.insets.md, MediaQuery.of(context).padding.bottom);
+    double safeBottom =
+        max($styles.insets.md, MediaQuery.of(context).padding.bottom);
 
     return LayoutBuilder(builder: (_, constraints) {
       return BottomCenter(
         child: AnimatedPadding(
           duration: $styles.times.fast,
-          padding: isOpen ? EdgeInsets.zero : EdgeInsets.only(bottom: safeBottom + $styles.insets.xxs),
+          padding: isOpen
+              ? EdgeInsets.zero
+              : EdgeInsets.only(bottom: safeBottom + $styles.insets.xxs),
           child: AppBtn.basic(
             onPressed: () => widget.panelController.toggle(),
             semanticLabel: '',
             pressEffect: false,
             child: OpeningCard(
               isOpen: isOpen,
-              padding: EdgeInsets.symmetric(horizontal: pad, vertical: $styles.insets.xs),
+              padding: EdgeInsets.symmetric(
+                  horizontal: pad, vertical: $styles.insets.xs),
               background: Container(
                 decoration: BoxDecoration(
                   color: $styles.colors.black.withOpacity(0.85),
@@ -71,7 +77,8 @@ class _ExpandingTimeRangeSelectorState extends State<ExpandingTimeRangeSelector>
                   ],
                 ),
               ),
-              closedBuilder: (_) => _ClosedTimeRange(startYear: widget.startYear, endYear: widget.endYear),
+              closedBuilder: (_) => _ClosedTimeRange(
+                  startYear: widget.startYear, endYear: widget.endYear),
               openBuilder: (_) => SizedBox(
                 width: constraints.maxWidth - pad * 2,
                 child: Center(
@@ -102,15 +109,19 @@ class _ClosedTimeRange extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String text = '${StringUtils.formatYr(startYear.round())} - ${StringUtils.formatYr(endYear.round())}';
+    final String text =
+        '${StringUtils.formatYr(startYear.round())} - ${StringUtils.formatYr(endYear.round())}';
 
     return Padding(
       padding: EdgeInsets.symmetric(vertical: $styles.insets.xs),
       child: Row(
         children: [
-          Text(text, style: $styles.text.title2.copyWith(color: $styles.colors.offWhite)),
+          Text(text,
+              style:
+                  $styles.text.title2.copyWith(color: $styles.colors.offWhite)),
           Gap($styles.insets.xs),
-          Icon(Icons.edit_calendar_outlined, color: $styles.colors.accent1, size: $styles.insets.md),
+          Icon(Icons.edit_calendar_outlined,
+              color: $styles.colors.accent1, size: $styles.insets.md),
         ],
       ),
     );
@@ -133,7 +144,8 @@ class _OpenedTimeRange extends StatelessWidget {
   final TimeRangePainter painter;
   final void Function() onClose;
 
-  Widget _buildChineseDateLayout(TextStyle headingTextStyle, TextStyle captionTextStyle, int startYr, int endYr) {
+  Widget _buildChineseDateLayout(TextStyle headingTextStyle,
+      TextStyle captionTextStyle, int startYr, int endYr) {
     return MergeSemantics(
       child: Row(
         children: [
@@ -153,7 +165,8 @@ class _OpenedTimeRange extends StatelessWidget {
     );
   }
 
-  Widget _buildDefaultDateLayout(TextStyle headingTextStyle, TextStyle captionTextStyle, int startYr, int endYr) {
+  Widget _buildDefaultDateLayout(TextStyle headingTextStyle,
+      TextStyle captionTextStyle, int startYr, int endYr) {
     return MergeSemantics(
       child: Row(
         children: [
@@ -173,11 +186,15 @@ class _OpenedTimeRange extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double safeBottom = max($styles.insets.sm, MediaQuery.of(context).padding.bottom);
-    List<Widget> timelineGrid = List.generate(5, (_) => Container(width: 1, color: $styles.colors.black));
+    double safeBottom =
+        max($styles.insets.sm, MediaQuery.of(context).padding.bottom);
+    List<Widget> timelineGrid = List.generate(
+        5, (_) => Container(width: 1, color: $styles.colors.black));
 
-    final headingTextStyle = $styles.text.title1.copyWith(color: $styles.colors.offWhite, fontSize: 20 * $styles.scale);
-    final captionTextStyle = $styles.text.bodySmall.copyWith(color: $styles.colors.greyMedium);
+    final headingTextStyle = $styles.text.title1
+        .copyWith(color: $styles.colors.offWhite, fontSize: 20 * $styles.scale);
+    final captionTextStyle =
+        $styles.text.bodySmall.copyWith(color: $styles.colors.greyMedium);
 
     final startYr = startYear.round(), endYr = endYear.round();
 
@@ -189,9 +206,11 @@ class _OpenedTimeRange extends StatelessWidget {
             Gap($styles.insets.xl),
             Spacer(),
             if (localeLogic.strings.localeName == 'zh') ...{
-              _buildChineseDateLayout(headingTextStyle, captionTextStyle, startYr, endYr),
+              _buildChineseDateLayout(
+                  headingTextStyle, captionTextStyle, startYr, endYr),
             } else ...{
-              _buildDefaultDateLayout(headingTextStyle, captionTextStyle, startYr, endYr),
+              _buildDefaultDateLayout(
+                  headingTextStyle, captionTextStyle, startYr, endYr),
             },
             Spacer(),
             SizedBox(
@@ -231,7 +250,8 @@ class _OpenedTimeRange extends StatelessWidget {
               // results visualization:
               Positioned.fill(
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: RangeSelector.handleWidth),
+                  padding: EdgeInsets.symmetric(
+                      horizontal: RangeSelector.handleWidth),
                   child: RepaintBoundary(
                     child: CustomPaint(painter: painter),
                   ),
@@ -241,14 +261,16 @@ class _OpenedTimeRange extends StatelessWidget {
               // wonder minimap:
               Positioned.fill(
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: RangeSelector.handleWidth, vertical: 12),
+                  padding: EdgeInsets.symmetric(
+                      horizontal: RangeSelector.handleWidth, vertical: 12),
                   child: WondersTimelineBuilder(
                     crossAxisGap: 6,
                     minSize: 16,
                     selectedWonders: [wonder.type],
                     timelineBuilder: (_, __, sel) => Container(
                       decoration: BoxDecoration(
-                        color: $styles.colors.offWhite.withOpacity(sel ? 0.75 : 0.25),
+                        color: $styles.colors.offWhite
+                            .withOpacity(sel ? 0.75 : 0.25),
                         borderRadius: BorderRadius.circular(999),
                       ),
                     ),

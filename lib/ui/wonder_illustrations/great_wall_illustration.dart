@@ -25,7 +25,8 @@ class GreatWallIllustration extends StatelessWidget {
 
   List<Widget> _buildBg(BuildContext context, Animation<double> anim) {
     return [
-      FadeColorTransition(animation: anim, color: $styles.colors.shift(fgColor, .15)),
+      FadeColorTransition(
+          animation: anim, color: $styles.colors.shift(fgColor, .15)),
       Positioned.fill(
         child: IllustrationTexture(
           ImagePaths.roller2,
@@ -41,7 +42,9 @@ class GreatWallIllustration extends StatelessWidget {
         enableHero: true,
         heightFactor: config.shortMode ? .07 : .25,
         minHeight: 120,
-        offset: config.shortMode ? Offset(-40, context.heightPx * -.06) : Offset(-65, context.heightPx * -.3),
+        offset: config.shortMode
+            ? Offset(-40, context.heightPx * -.06)
+            : Offset(-65, context.heightPx * -.3),
       ),
     ];
   }

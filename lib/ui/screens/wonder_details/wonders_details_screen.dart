@@ -51,12 +51,14 @@ class _WonderDetailsScreenState extends State<WonderDetailsScreen>
 
   void _handleTabTapped(int index) {
     _tabController.index = index;
-    context.go(ScreenPaths.wonderDetails(widget.type, tabIndex: _tabController.index));
+    context.go(
+        ScreenPaths.wonderDetails(widget.type, tabIndex: _tabController.index));
   }
 
   void _handleTabMenuSized(Size size) {
     setState(() {
-      _tabBarSize = (_useNavRail ? size.width : size.height) - WonderDetailsTabMenu.buttonInset;
+      _tabBarSize = (_useNavRail ? size.width : size.height) -
+          WonderDetailsTabMenu.buttonInset;
     });
   }
 
@@ -68,7 +70,9 @@ class _WonderDetailsScreenState extends State<WonderDetailsScreen>
     int tabIndex = _tabController.index;
     bool showTabBarBg = tabIndex != 1;
     final tabBarSize = _tabBarSize ?? 0;
-    final menuPadding = _useNavRail ? EdgeInsets.only(left: tabBarSize) : EdgeInsets.only(bottom: tabBarSize);
+    final menuPadding = _useNavRail
+        ? EdgeInsets.only(left: tabBarSize)
+        : EdgeInsets.only(bottom: tabBarSize);
     return ColoredBox(
       color: Colors.black,
       child: Stack(
@@ -78,15 +82,19 @@ class _WonderDetailsScreenState extends State<WonderDetailsScreen>
             index: _tabController.index,
             children: [
               WonderEditorialScreen(wonder, contentPadding: menuPadding),
-              PhotoGallery(collectionId: wonder.unsplashCollectionId, wonderType: wonder.type),
-              ArtifactCarouselScreen(type: wonder.type, contentPadding: menuPadding),
+              PhotoGallery(
+                  collectionId: wonder.unsplashCollectionId,
+                  wonderType: wonder.type),
+              ArtifactCarouselScreen(
+                  type: wonder.type, contentPadding: menuPadding),
               WonderEvents(type: widget.type, contentPadding: menuPadding),
             ],
           ),
 
           /// Tab menu
           Align(
-            alignment: _useNavRail ? Alignment.centerLeft : Alignment.bottomCenter,
+            alignment:
+                _useNavRail ? Alignment.centerLeft : Alignment.bottomCenter,
             child: MeasurableWidget(
               onChange: _handleTabMenuSized,
               child: WonderDetailsTabMenu(

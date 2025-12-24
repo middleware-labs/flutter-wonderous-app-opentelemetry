@@ -2,7 +2,8 @@ part of '../collection_screen.dart';
 
 @immutable
 class _CollectionFooter extends StatelessWidget {
-  const _CollectionFooter({super.key, required this.count, required this.total});
+  const _CollectionFooter(
+      {super.key, required this.count, required this.total});
 
   final int count;
   final int total;
@@ -20,7 +21,8 @@ class _CollectionFooter extends StatelessWidget {
       //   ),
       // ),
       Container(
-        padding: EdgeInsets.symmetric(horizontal: $styles.insets.md, vertical: $styles.insets.sm),
+        padding: EdgeInsets.symmetric(
+            horizontal: $styles.insets.md, vertical: $styles.insets.sm),
         color: $styles.colors.greyStrong,
         child: SafeArea(
           top: false,
@@ -69,7 +71,10 @@ class _CollectionFooter extends StatelessWidget {
             color: $styles.colors.accent1,
             borderRadius: BorderRadius.circular(1000),
           ),
-        ).maybeAnimate().fade(duration: 1500.animateMs, curve: Curves.easeOutExpo).custom(
+        )
+            .maybeAnimate()
+            .fade(duration: 1500.animateMs, curve: Curves.easeOutExpo)
+            .custom(
               builder: (_, m, child) => FractionallySizedBox(
                 alignment: Alignment.centerLeft,
                 widthFactor: m * count / total,

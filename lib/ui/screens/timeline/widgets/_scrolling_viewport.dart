@@ -23,7 +23,8 @@ class _ScrollingViewport extends StatefulWidget {
 }
 
 class _ScalingViewportState extends State<_ScrollingViewport> {
-  late final _ScrollingViewportController controller = _ScrollingViewportController(this);
+  late final _ScrollingViewportController controller =
+      _ScrollingViewportController(this);
   static const double _minTimelineSize = 100;
   final _currentEventMarker = ValueNotifier<TimelineEvent?>(null);
   Size? _prevSize;
@@ -48,7 +49,8 @@ class _ScalingViewportState extends State<_ScrollingViewport> {
 
   void _handleMarkerPressed(event) {
     final pos = controller.calculateScrollPosFromYear(event.year);
-    controller.scroller.animateTo(pos, duration: $styles.times.med, curve: Curves.easeOutBack);
+    controller.scroller
+        .animateTo(pos, duration: $styles.times.med, curve: Curves.easeOutBack);
   }
 
   @override
@@ -73,7 +75,8 @@ class _ScalingViewportState extends State<_ScrollingViewport> {
             child: AnimatedBuilder(
               animation: controller.scroller,
               builder: (_, __) {
-                return _DashedDividerWithYear(controller.calculateYearFromScrollPos());
+                return _DashedDividerWithYear(
+                    controller.calculateYearFromScrollPos());
               },
             ),
           ),
@@ -130,7 +133,8 @@ class _ScalingViewportState extends State<_ScrollingViewport> {
                           axis: Axis.vertical,
                           crossAxisGap: max(6, (width - (120 * 3)) / 2),
                           minSize: _minTimelineSize,
-                          timelineBuilder: (_, data, __) => buildTimelineSection(data),
+                          timelineBuilder: (_, data, __) =>
+                              buildTimelineSection(data),
                         ),
                       ),
                     ),

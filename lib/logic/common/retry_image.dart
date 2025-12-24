@@ -51,7 +51,8 @@ class RetryImage extends ImageProvider<Object> {
 
   @override
   ImageStreamCompleter loadImage(Object key, ImageDecoderCallback decode) {
-    final _DelegatingImageStreamCompleter completer = _DelegatingImageStreamCompleter();
+    final _DelegatingImageStreamCompleter completer =
+        _DelegatingImageStreamCompleter();
     ImageStreamCompleter completerToWrap = imageProvider.loadImage(key, decode);
     late ImageStreamListener listener;
 
@@ -90,7 +91,9 @@ class RetryImage extends ImageProvider<Object> {
     if (other.runtimeType != runtimeType) {
       return false;
     }
-    return other is RetryImage && other.imageProvider == imageProvider && other.scale == scale;
+    return other is RetryImage &&
+        other.imageProvider == imageProvider &&
+        other.scale == scale;
   }
 
   @override

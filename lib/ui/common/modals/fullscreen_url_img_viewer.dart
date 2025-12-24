@@ -19,7 +19,8 @@ class FullscreenUrlImgViewer extends StatefulWidget {
 
 class _FullscreenUrlImgViewerState extends State<FullscreenUrlImgViewer> {
   final _isZoomed = ValueNotifier(false);
-  late final _controller = PageController(initialPage: widget.index)..addListener(_handlePageChanged);
+  late final _controller = PageController(initialPage: widget.index)
+    ..addListener(_handlePageChanged);
   late final ValueNotifier<int> _currentPage = ValueNotifier(widget.index);
 
   @override
@@ -49,11 +50,13 @@ class _FullscreenUrlImgViewerState extends State<FullscreenUrlImgViewer> {
 
   void _handlePageChanged() => _currentPage.value = _controller.page!.round();
 
-  void _handleBackPressed() => Navigator.pop(context, _controller.page!.round());
+  void _handleBackPressed() =>
+      Navigator.pop(context, _controller.page!.round());
 
   void _animateToPage(int page) {
     if (page >= 0 || page < widget.urls.length) {
-      _controller.animateToPage(page, duration: $styles.times.fast, curve: Curves.easeOut);
+      _controller.animateToPage(page,
+          duration: $styles.times.fast, curve: Curves.easeOut);
     }
   }
 
@@ -64,7 +67,9 @@ class _FullscreenUrlImgViewerState extends State<FullscreenUrlImgViewer> {
       builder: (_, __) {
         final bool enableSwipe = !_isZoomed.value && widget.urls.length > 1;
         return PageView.builder(
-          physics: enableSwipe ? PageScrollPhysics() : NeverScrollableScrollPhysics(),
+          physics: enableSwipe
+              ? PageScrollPhysics()
+              : NeverScrollableScrollPhysics(),
           controller: _controller,
           itemCount: widget.urls.length,
           itemBuilder: (_, index) => _Viewer(widget.urls[index], _isZoomed),
@@ -101,14 +106,18 @@ class _FullscreenUrlImgViewerState extends State<FullscreenUrlImgViewer> {
                         children: [
                           CircleIconBtn(
                             icon: AppIcons.prev,
-                            onPressed: page == 0 ? null : () => _animateToPage(page - 1),
+                            onPressed: page == 0
+                                ? null
+                                : () => _animateToPage(page - 1),
                             semanticLabel: $strings.semanticsPrevious(''),
                           ),
                           Gap($styles.insets.xs),
                           CircleIconBtn(
                             icon: AppIcons.prev,
                             flipIcon: true,
-                            onPressed: page == widget.urls.length - 1 ? null : () => _animateToPage(page + 1),
+                            onPressed: page == widget.urls.length - 1
+                                ? null
+                                : () => _animateToPage(page + 1),
                             semanticLabel: $strings.semanticsNext(''),
                           )
                         ],
@@ -153,7 +162,8 @@ class _ViewerState extends State<_Viewer> with SingleTickerProviderStateMixin {
       onDoubleTap: _handleDoubleTap,
       child: InteractiveViewer(
         transformationController: _controller,
-        onInteractionEnd: (_) => widget.isZoomed.value = _controller.value.getMaxScaleOnAxis() > 1,
+        onInteractionEnd: (_) =>
+            widget.isZoomed.value = _controller.value.getMaxScaleOnAxis() > 1,
         minScale: 1,
         maxScale: 5,
         child: Hero(

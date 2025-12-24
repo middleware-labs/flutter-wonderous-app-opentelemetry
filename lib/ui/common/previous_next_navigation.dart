@@ -31,11 +31,13 @@ class _PreviousNextNavigationState extends State<PreviousNextNavigation> {
   final int _scrollCooldownMs = 300;
 
   bool _handleKeyDown(KeyDownEvent event) {
-    if (event.logicalKey == LogicalKeyboardKey.arrowLeft && widget.onPreviousPressed != null) {
+    if (event.logicalKey == LogicalKeyboardKey.arrowLeft &&
+        widget.onPreviousPressed != null) {
       widget.onPreviousPressed?.call();
       return true;
     }
-    if (event.logicalKey == LogicalKeyboardKey.arrowRight && widget.onNextPressed != null) {
+    if (event.logicalKey == LogicalKeyboardKey.arrowRight &&
+        widget.onNextPressed != null) {
       widget.onNextPressed?.call();
       return true;
     }
@@ -45,7 +47,9 @@ class _PreviousNextNavigationState extends State<PreviousNextNavigation> {
   void _handleMouseScroll(event) {
     if (event is PointerScrollEvent) {
       // Cooldown, ignore scroll events that are too close together
-      if (DateTime.now().millisecondsSinceEpoch - _lastMouseScrollTime.millisecondsSinceEpoch < _scrollCooldownMs) {
+      if (DateTime.now().millisecondsSinceEpoch -
+              _lastMouseScrollTime.millisecondsSinceEpoch <
+          _scrollCooldownMs) {
         return;
       }
       _lastMouseScrollTime = DateTime.now();

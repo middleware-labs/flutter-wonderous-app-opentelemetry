@@ -1,7 +1,8 @@
 part of '../editorial_screen.dart';
 
 class _AppBar extends StatelessWidget {
-  _AppBar(this.wonderType, {super.key, required this.sectionIndex, required this.scrollPos});
+  _AppBar(this.wonderType,
+      {super.key, required this.sectionIndex, required this.scrollPos});
   final WonderType wonderType;
   final ValueNotifier<int> sectionIndex;
   final ValueNotifier<double> scrollPos;
@@ -47,7 +48,9 @@ class _AppBar extends StatelessWidget {
                 /// Masked image
                 BottomCenter(
                   child: SizedBox(
-                    width: showOverlay ? double.infinity : $styles.sizes.maxContentWidth1,
+                    width: showOverlay
+                        ? double.infinity
+                        : $styles.sizes.maxContentWidth1,
                     child: Padding(
                       padding: const EdgeInsets.only(bottom: 50),
                       child: ClipPath(
@@ -67,7 +70,10 @@ class _AppBar extends StatelessWidget {
                             );
                           },
                         ),
-                      ).maybeAnimate(delay: $styles.times.pageTransition + 500.delayMs).fadeIn(duration: $styles.times.slow),
+                      )
+                          .maybeAnimate(
+                              delay: $styles.times.pageTransition + 500.delayMs)
+                          .fadeIn(duration: $styles.times.slow),
                     ),
                   ),
                 ),

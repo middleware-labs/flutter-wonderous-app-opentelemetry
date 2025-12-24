@@ -14,7 +14,8 @@ class CollectiblesLogic with ThrottledSaveLoadMixin {
   final List<CollectibleData> all = collectiblesData;
 
   /// Current state for each collectible
-  late final statesById = ValueNotifier<Map<String, int>>({})..addListener(_updateCounts);
+  late final statesById = ValueNotifier<Map<String, int>>({})
+    ..addListener(_updateCounts);
 
   int _discoveredCount = 0;
 
@@ -28,7 +29,8 @@ class CollectiblesLogic with ThrottledSaveLoadMixin {
 
   void init() => _nativeWidget.init();
 
-  CollectibleData? fromId(String? id) => id == null ? null : all.firstWhereOrNull((o) => o.id == id);
+  CollectibleData? fromId(String? id) =>
+      id == null ? null : all.firstWhereOrNull((o) => o.id == id);
 
   List<CollectibleData> forWonder(WonderType wonder) {
     return all.where((o) => o.wonder == wonder).toList(growable: false);
@@ -97,7 +99,8 @@ class CollectiblesLogic with ThrottledSaveLoadMixin {
     scheduleSave();
   }
 
-  Future<void> _updateNativeHomeWidgetData({String title = '', String id = '', String imageUrl = ''}) async {
+  Future<void> _updateNativeHomeWidgetData(
+      {String title = '', String id = '', String imageUrl = ''}) async {
     if (!_nativeWidget.isSupported) return;
     // Save title
     await _nativeWidget.save<String>('lastDiscoveredTitle', title);

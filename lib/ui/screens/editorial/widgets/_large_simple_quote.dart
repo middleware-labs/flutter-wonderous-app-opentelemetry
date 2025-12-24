@@ -1,7 +1,8 @@
 part of '../editorial_screen.dart';
 
 class _LargeSimpleQuote extends StatelessWidget {
-  const _LargeSimpleQuote({super.key, required this.text, required this.author});
+  const _LargeSimpleQuote(
+      {super.key, required this.text, required this.author});
   final String text;
   final String author;
 
@@ -10,7 +11,8 @@ class _LargeSimpleQuote extends StatelessWidget {
     return MergeSemantics(
       child: CenteredBox(
         width: 300,
-        padding: EdgeInsets.symmetric(horizontal: $styles.insets.lg, vertical: $styles.insets.xl),
+        padding: EdgeInsets.symmetric(
+            horizontal: $styles.insets.lg, vertical: $styles.insets.xl),
         child: Column(
           children: [
             FractionalTranslation(
@@ -32,7 +34,8 @@ class _LargeSimpleQuote extends StatelessWidget {
             Gap($styles.insets.md),
             Text(
               '- $author',
-              style: $styles.text.quote2Sub.copyWith(color: $styles.colors.accent3),
+              style: $styles.text.quote2Sub
+                  .copyWith(color: $styles.colors.accent3),
             ),
           ],
         ),

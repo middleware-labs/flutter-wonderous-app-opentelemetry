@@ -36,14 +36,17 @@ class _CollapsingCarouselItem extends StatelessWidget {
             // Center item is portrait, the others are square
             height: indexOffset == 0 ? tallHeight : width,
             width: width,
-            padding: indexOffset == 0 ? EdgeInsets.all(0) : EdgeInsets.all(width * .1),
+            padding: indexOffset == 0
+                ? EdgeInsets.all(0)
+                : EdgeInsets.all(width * .1),
             child: child,
           ),
         ),
       ),
     );
     if (indexOffset > 2) return content;
-    return AppBtn.basic(onPressed: onPressed, semanticLabel: title, child: content);
+    return AppBtn.basic(
+        onPressed: onPressed, semanticLabel: title, child: content);
   }
 }
 
@@ -87,7 +90,10 @@ class _DoubleBorderImage extends StatelessWidget {
             borderRadius: BorderRadius.circular(999),
             child: ColoredBox(
               color: $styles.colors.greyMedium,
-              child: AppImage(image: NetworkImage(data.imageUrlSmall), fit: BoxFit.cover, scale: 0.5),
+              child: AppImage(
+                  image: NetworkImage(data.imageUrlSmall),
+                  fit: BoxFit.cover,
+                  scale: 0.5),
             ),
           ),
         ),

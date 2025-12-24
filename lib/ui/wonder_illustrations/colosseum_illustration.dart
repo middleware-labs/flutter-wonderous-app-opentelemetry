@@ -24,7 +24,8 @@ class ColosseumIllustration extends StatelessWidget {
 
   List<Widget> _buildBg(BuildContext context, Animation<double> anim) {
     return [
-      FadeColorTransition(animation: anim, color: $styles.colors.shift(bgColor, .15)),
+      FadeColorTransition(
+          animation: anim, color: $styles.colors.shift(bgColor, .15)),
       Positioned.fill(
         child: IllustrationTexture(
           ImagePaths.roller1,
@@ -39,7 +40,9 @@ class ColosseumIllustration extends StatelessWidget {
         enableHero: true,
         heightFactor: config.shortMode ? .25 : .25,
         minHeight: 100,
-        offset: config.shortMode ? Offset(50, context.heightPx * -.07) : Offset(80, context.heightPx * -.28),
+        offset: config.shortMode
+            ? Offset(50, context.heightPx * -.07)
+            : Offset(80, context.heightPx * -.28),
       ),
     ];
   }

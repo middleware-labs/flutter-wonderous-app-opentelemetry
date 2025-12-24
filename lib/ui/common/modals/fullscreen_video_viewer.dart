@@ -54,7 +54,8 @@ class _FullscreenVideoViewerState extends State<FullscreenVideoViewer> {
 
   @override
   Widget build(BuildContext context) {
-    double aspect = context.isLandscape ? MediaQuery.of(context).size.aspectRatio : 9 / 9;
+    double aspect =
+        context.isLandscape ? MediaQuery.of(context).size.aspectRatio : 9 / 9;
     return Scaffold(
       backgroundColor: Colors.black,
       body: Stack(

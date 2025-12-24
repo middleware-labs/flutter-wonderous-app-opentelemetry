@@ -20,7 +20,8 @@ class ArchClipper extends CustomClipper<Path> {
   }
 
   @override
-  bool shouldReclip(covariant ArchClipper oldClipper) => oldClipper.type != type;
+  bool shouldReclip(covariant ArchClipper oldClipper) =>
+      oldClipper.type != type;
 }
 
 class ArchPoint {
@@ -52,7 +53,8 @@ List<ArchPoint> _getArchPts(Size size, ArchType type) {
         ArchPoint(Offset(0, size.height)),
         ArchPoint(Offset(0, distanceFromTop)),
         ArchPoint(Offset(size.width / 2, 0), Offset(0, distanceFromTop * .66)),
-        ArchPoint(Offset(size.width, distanceFromTop), Offset(size.width, distanceFromTop * .66)),
+        ArchPoint(Offset(size.width, distanceFromTop),
+            Offset(size.width, distanceFromTop * .66)),
         ArchPoint(Offset(size.width, size.height)),
       ],
     ArchType.arch => [

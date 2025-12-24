@@ -4,10 +4,12 @@ import 'package:flutter/rendering.dart';
 import 'package:wondrous_opentelemetry/common_libs.dart';
 
 class MeasurableWidget extends SingleChildRenderObjectWidget {
-  const MeasurableWidget({super.key, required this.onChange, required Widget super.child});
+  const MeasurableWidget(
+      {super.key, required this.onChange, required Widget super.child});
   final void Function(Size size) onChange;
   @override
-  RenderObject createRenderObject(BuildContext context) => MeasureSizeRenderObject(onChange);
+  RenderObject createRenderObject(BuildContext context) =>
+      MeasureSizeRenderObject(onChange);
 }
 
 class MeasureSizeRenderObject extends RenderProxyBox {

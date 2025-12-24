@@ -21,7 +21,8 @@ class HomeMenu extends StatefulWidget {
 }
 
 class _HomeMenuState extends State<HomeMenu> {
-  double _btnSize(BuildContext context) => (context.sizePx.shortestSide / 5).clamp(60, 100);
+  double _btnSize(BuildContext context) =>
+      (context.sizePx.shortestSide / 5).clamp(60, 100);
 
   void _handleAboutPressed(BuildContext context) async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
@@ -40,11 +41,14 @@ class _HomeMenuState extends State<HomeMenu> {
     );
   }
 
-  void _handleCollectionPressed(BuildContext context) => context.go(ScreenPaths.collection(''));
+  void _handleCollectionPressed(BuildContext context) =>
+      context.go(ScreenPaths.collection(''));
 
-  void _handleTimelinePressed(BuildContext context) => context.go(ScreenPaths.timeline(widget.data.type));
+  void _handleTimelinePressed(BuildContext context) =>
+      context.go(ScreenPaths.timeline(widget.data.type));
 
-  void _handleWonderPressed(BuildContext context, WonderData data) => Navigator.pop(context, data.type);
+  void _handleWonderPressed(BuildContext context, WonderData data) =>
+      Navigator.pop(context, data.type);
 
   @override
   Widget build(BuildContext context) {
@@ -111,7 +115,8 @@ class _HomeMenuState extends State<HomeMenu> {
           _buildGridBtn(context, wondersLogic.all[3]),
           SizedBox(
             width: _btnSize(context),
-            child: SvgPicture.asset(SvgPaths.compassFull, colorFilter: $styles.colors.offWhite.colorFilter),
+            child: SvgPicture.asset(SvgPaths.compassFull,
+                colorFilter: $styles.colors.offWhite.colorFilter),
           ),
           _buildGridBtn(context, wondersLogic.all[4]),
         ]),
@@ -129,11 +134,12 @@ class _HomeMenuState extends State<HomeMenu> {
         valueListenable: settingsLogic.currentLocale,
         builder: (_, __, ___) {
           return SeparatedColumn(
-            separatorBuilder: () => Divider(thickness: 1.5, height: 1).maybeAnimate().scale(
-                  duration: $styles.times.slow,
-                  delay: $styles.times.pageTransition + 200.delayMs,
-                  curve: Curves.easeOutBack,
-                ),
+            separatorBuilder: () =>
+                Divider(thickness: 1.5, height: 1).maybeAnimate().scale(
+                      duration: $styles.times.slow,
+                      delay: $styles.times.pageTransition + 200.delayMs,
+                      curve: Curves.easeOutBack,
+                    ),
             children: [
               _MenuTextBtn(
                   label: $strings.homeMenuButtonExplore,
@@ -177,12 +183,15 @@ class _HomeMenuState extends State<HomeMenu> {
       child: ClipRRect(
         borderRadius: BorderRadius.circular($styles.corners.md),
         child: AppBtn(
-          border: !isSelected ? null : BorderSide(color: $styles.colors.offWhite, width: 5),
+          border: !isSelected
+              ? null
+              : BorderSide(color: $styles.colors.offWhite, width: 5),
           bgColor: btnData.type.fgColor,
           onPressed: () => _handleWonderPressed(context, btnData),
           padding: EdgeInsets.zero,
           semanticLabel: btnData.title,
-          child: SizedBox.expand(child: Image.asset(btnData.type.homeBtn, fit: BoxFit.cover)),
+          child: SizedBox.expand(
+              child: Image.asset(btnData.type.homeBtn, fit: BoxFit.cover)),
         ),
       ),
     );
@@ -190,7 +199,8 @@ class _HomeMenuState extends State<HomeMenu> {
 }
 
 class _MenuTextBtn extends StatelessWidget {
-  const _MenuTextBtn({required this.label, required this.onPressed, required this.icon});
+  const _MenuTextBtn(
+      {required this.label, required this.onPressed, required this.icon});
   final String label;
   final VoidCallback onPressed;
   final AppIcons icon;

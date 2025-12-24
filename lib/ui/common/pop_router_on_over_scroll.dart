@@ -1,7 +1,8 @@
 import 'package:wondrous_opentelemetry/common_libs.dart';
 
 class PopRouterOnOverScroll extends StatefulWidget {
-  const PopRouterOnOverScroll({super.key, required this.child, required this.controller});
+  const PopRouterOnOverScroll(
+      {super.key, required this.child, required this.controller});
   final ScrollController controller;
   final Widget child;
 

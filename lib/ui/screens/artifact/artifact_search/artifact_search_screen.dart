@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:http/http.dart' as http;
+import 'package:middleware_flutter_opentelemetry/middleware_flutter_opentelemetry.dart';
 import 'package:wondrous_opentelemetry/common_libs.dart';
 import 'package:wondrous_opentelemetry/logic/data/wonder_data.dart';
 import 'package:wondrous_opentelemetry/logic/data/wonders_data/search/search_data.dart';
@@ -14,7 +18,8 @@ part 'widgets/_search_input.dart';
 
 /// User can use this screen to search the MET server for an artifact by name or timeline. Artifacts results will
 /// appear as images, which the user can click on to being up the details view for more information.
-class ArtifactSearchScreen extends StatefulWidget with GetItStatefulWidgetMixin {
+class ArtifactSearchScreen extends StatefulWidget
+    with GetItStatefulWidgetMixin {
   ArtifactSearchScreen({super.key, required this.type});
   final WonderType type;
 
@@ -22,7 +27,8 @@ class ArtifactSearchScreen extends StatefulWidget with GetItStatefulWidgetMixin 
   State<ArtifactSearchScreen> createState() => _ArtifactSearchScreenState();
 }
 
-class _ArtifactSearchScreenState extends State<ArtifactSearchScreen> with GetItStateMixin {
+class _ArtifactSearchScreenState extends State<ArtifactSearchScreen>
+    with GetItStateMixin {
   List<SearchData> _searchResults = [];
   List<SearchData> _filteredResults = [];
   String _query = '';
@@ -36,7 +42,8 @@ class _ArtifactSearchScreenState extends State<ArtifactSearchScreen> with GetItS
     minYear: wondersLogic.timelineStartYear,
     maxYear: wondersLogic.timelineEndYear,
   );
-  late double _startYear = wonder.artifactStartYr * 1.0, _endYear = wonder.artifactEndYr * 1.0;
+  late double _startYear = wonder.artifactStartYr * 1.0,
+      _endYear = wonder.artifactEndYr * 1.0;
 
   @override
   void initState() {
@@ -65,44 +72,73 @@ class _ArtifactSearchScreenState extends State<ArtifactSearchScreen> with GetItS
     _updateFilter();
   }
 
-  void _handleResultPressed(SearchData o) => context.go(ScreenPaths.artifact(o.id.toString()));
+  void _handleResultPressed(SearchData o) =>
+      context.go(ScreenPaths.artifact(o.id.toString()));
 
   void _handlePanelControllerChanged() {
     settingsLogic.isSearchPanelOpen.value = panelController.value;
   }
 
+  Future<void> _testHttpCall() async {
+    try {
+      final client = http.Client().instrument();
+      final response = await client.get(
+        Uri.parse('https://jsonplaceholder.typicode.com/todos/1'),
+      );
+
+      if (response.statusCode == 200) {
+        final jsonData = json.decode(response.body);
+        debugPrint('Dummy JSON Response: $jsonData');
+      } else {
+        debugPrint('Request failed: ${response.statusCode}');
+      }
+    } catch (e) {
+      debugPrint('HTTP error: $e');
+    }
+  }
+
   void _updateResults() {
+    _testHttpCall();
     if (_query.isEmpty) {
       _searchResults = wonder.searchData;
     } else {
       // whole word search on title and keywords.
       // this is a somewhat naive search, but is sufficient for demoing the UI.
       final RegExp q = RegExp('\\b${_query}s?\\b', caseSensitive: false);
-      _searchResults = wonder.searchData.where((o) => o.title.contains(q) || o.keywords.contains(q)).toList();
+      _searchResults = wonder.searchData
+          .where((o) => o.title.contains(q) || o.keywords.contains(q))
+          .toList();
     }
     vizController.value = _searchResults;
     _updateFilter();
   }
 
   void _updateFilter() {
-    _filteredResults = _searchResults.where((o) => o.year >= _startYear && o.year <= _endYear).toList();
+    _filteredResults = _searchResults
+        .where((o) => o.year >= _startYear && o.year <= _endYear)
+        .toList();
     setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     // tone down the orange just a bit:
-    vizController.color = Color.lerp($styles.colors.accent1, $styles.colors.black, 0.2)!;
+    vizController.color =
+        Color.lerp($styles.colors.accent1, $styles.colors.black, 0.2)!;
     Widget content = GestureDetector(
       onTap: FocusManager.instance.primaryFocus?.unfocus,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          AppHeader(title: $strings.artifactsSearchTitleBrowse, subtitle: wonder.title),
+          AppHeader(
+              title: $strings.artifactsSearchTitleBrowse,
+              subtitle: wonder.title),
           Container(
             color: $styles.colors.black,
-            padding: EdgeInsets.fromLTRB($styles.insets.sm, $styles.insets.sm, $styles.insets.sm, 0),
-            child: _SearchInput(onSubmit: _handleSearchSubmitted, wonder: wonder),
+            padding: EdgeInsets.fromLTRB(
+                $styles.insets.sm, $styles.insets.sm, $styles.insets.sm, 0),
+            child:
+                _SearchInput(onSubmit: _handleSearchSubmitted, wonder: wonder),
           ),
           Container(
             color: $styles.colors.black,
@@ -124,7 +160,8 @@ class _ArtifactSearchScreenState extends State<ArtifactSearchScreen> with GetItS
     );
 
     return Stack(children: [
-      Positioned.fill(child: ColoredBox(color: $styles.colors.greyStrong, child: content)),
+      Positioned.fill(
+          child: ColoredBox(color: $styles.colors.greyStrong, child: content)),
       Positioned.fill(
         child: RepaintBoundary(
           child: ExpandingTimeRangeSelector(
@@ -141,12 +178,14 @@ class _ArtifactSearchScreenState extends State<ArtifactSearchScreen> with GetItS
   }
 
   Widget _buildStatusText(BuildContext context) {
-    final TextStyle statusStyle = $styles.text.body.copyWith(color: $styles.colors.accent1);
+    final TextStyle statusStyle =
+        $styles.text.body.copyWith(color: $styles.colors.accent1);
     if (_searchResults.isEmpty) {
       return StaticTextScale(
         child: Text(
           $strings.artifactsSearchLabelNotFound,
-          textHeightBehavior: TextHeightBehavior(applyHeightToFirstAscent: false),
+          textHeightBehavior:
+              TextHeightBehavior(applyHeightToFirstAscent: false),
           style: statusStyle,
           textAlign: TextAlign.center,
         ),
@@ -157,20 +196,26 @@ class _ArtifactSearchScreenState extends State<ArtifactSearchScreen> with GetItS
         child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
           Gap($styles.insets.sm),
           Text(
-            $strings.artifactsSearchLabelFound(_searchResults.length, _filteredResults.length),
-            textHeightBehavior: TextHeightBehavior(applyHeightToFirstAscent: false),
+            $strings.artifactsSearchLabelFound(
+                _searchResults.length, _filteredResults.length),
+            textHeightBehavior:
+                TextHeightBehavior(applyHeightToFirstAscent: false),
             style: statusStyle,
           ),
           AppBtn.basic(
             semanticLabel: $strings.artifactsSearchButtonToggle,
-            onPressed: () => panelController.toggle(),
+            onPressed: () {
+              _testHttpCall();
+              panelController.toggle();
+            },
             enableFeedback: false, // handled when panelController changes.
             child: Text(
               $strings.artifactsSearchSemanticTimeframe,
-              textHeightBehavior: TextHeightBehavior(applyHeightToFirstAscent: false),
+              textHeightBehavior:
+                  TextHeightBehavior(applyHeightToFirstAscent: false),
               style: statusStyle.copyWith(decoration: TextDecoration.underline),
             ),
-          ),
+          ).withOTelButtonTracking('search_button'),
           Gap($styles.insets.sm),
         ]),
       ),
@@ -181,7 +226,9 @@ class _ArtifactSearchScreenState extends State<ArtifactSearchScreen> with GetItS
     final strings = $strings;
     String text =
         '${strings.artifactsSearchLabelAdjust} ${_searchResults.isEmpty ? strings.artifactsSearchLabelSearch : strings.artifactsSearchLabelTimeframe}';
-    IconData icon = _searchResults.isEmpty ? Icons.search_outlined : Icons.edit_calendar_outlined;
+    IconData icon = _searchResults.isEmpty
+        ? Icons.search_outlined
+        : Icons.edit_calendar_outlined;
     Color color = $styles.colors.greyMedium;
     Widget widget = Column(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -196,7 +243,8 @@ class _ArtifactSearchScreenState extends State<ArtifactSearchScreen> with GetItS
       ],
     );
     if (_searchResults.isNotEmpty) {
-      widget = GestureDetector(child: widget, onTap: () => panelController.toggle());
+      widget =
+          GestureDetector(child: widget, onTap: () => panelController.toggle());
     }
     return widget;
   }

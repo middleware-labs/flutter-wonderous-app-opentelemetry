@@ -2,7 +2,10 @@ part of '../timeline_screen.dart';
 
 class _BottomScrubber extends StatelessWidget {
   const _BottomScrubber(this.scroller,
-      {super.key, required this.timelineMinSize, required this.size, required this.selectedWonder});
+      {super.key,
+      required this.timelineMinSize,
+      required this.size,
+      required this.selectedWonder});
   final ScrollController? scroller;
   final double timelineMinSize;
   final double size;
@@ -33,9 +36,12 @@ class _BottomScrubber extends StatelessWidget {
       void handleScrubberPan(DragUpdateDetails details) {
         final totalWidth = constraints.maxWidth;
         if (!scroller.hasClients) return;
-        double dragMultiplier = (scroller.position.maxScrollExtent + timelineMinSize) / totalWidth;
-        double newPos = scroller.position.pixels + details.delta.dx * dragMultiplier;
-        scroller.position.jumpTo(newPos.clamp(0, scroller.position.maxScrollExtent));
+        double dragMultiplier =
+            (scroller.position.maxScrollExtent + timelineMinSize) / totalWidth;
+        double newPos =
+            scroller.position.pixels + details.delta.dx * dragMultiplier;
+        scroller.position
+            .jumpTo(newPos.clamp(0, scroller.position.maxScrollExtent));
       }
 
       return SizedBox(
@@ -51,7 +57,8 @@ class _BottomScrubber extends StatelessWidget {
               ),
               child: WondersTimelineBuilder(
                 crossAxisGap: 4,
-                selectedWonders: selectedWonder != null ? [selectedWonder!] : [],
+                selectedWonders:
+                    selectedWonder != null ? [selectedWonder!] : [],
               ),
             ),
 

@@ -16,7 +16,8 @@ class UnsplashService {
   );
 
   Future<List<String>?> loadCollectionPhotos(String id) async {
-    final photo = await client.collections.photos(id, page: 1, perPage: 25).go();
+    final photo =
+        await client.collections.photos(id, page: 1, perPage: 25).go();
     final data = photo.data;
     if (data == null) return null;
     return data.map((e) => e.id).toList();

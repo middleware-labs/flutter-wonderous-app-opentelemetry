@@ -1,13 +1,13 @@
-import 'package:flutterrific_opentelemetry/flutterrific_opentelemetry.dart';
+import 'package:middleware_flutter_opentelemetry/middleware_flutter_opentelemetry.dart';
 import 'wonder_metrics_observer.dart';
 
 /// Central metrics service for the Wonderous app
 class WonderMetrics {
   static final WonderMetrics _instance = WonderMetrics._();
   static WonderMetrics get instance => _instance;
-  
+
   WonderMetrics._();
-  
+
   /// The metrics observer for navigation events
   final metricsObserver = WonderMetricsObserver();
 
@@ -22,7 +22,7 @@ class WonderMetrics {
       },
     );
   }
-  
+
   /// Record a search action
   void recordSearch(String query, String wonderName, int resultCount) {
     FlutterOTelMetrics.recordMetric(
@@ -34,7 +34,7 @@ class WonderMetrics {
         'search.wonder': wonderName,
       },
     );
-    
+
     // Also record the number of results
     FlutterOTelMetrics.recordMetric(
       name: 'search.results',
@@ -45,7 +45,7 @@ class WonderMetrics {
       },
     );
   }
-  
+
   /// Record a user interaction with a wonder
   void recordWonderInteraction(String wonderName, String interactionType) {
     FlutterOTelMetrics.recordMetric(
@@ -58,9 +58,10 @@ class WonderMetrics {
       },
     );
   }
-  
+
   /// Record a performance metric
-  void recordPerformance(String name, Duration duration, {Map<String, Object>? attributes}) {
+  void recordPerformance(String name, Duration duration,
+      {Map<String, Object>? attributes}) {
     FlutterOTelMetrics.recordMetric(
       name: 'performance.$name',
       value: duration.inMilliseconds,
@@ -69,7 +70,7 @@ class WonderMetrics {
       attributes: attributes,
     );
   }
-  
+
   /// Record artifact view
   void recordArtifactView(String artifactId, String wonderName) {
     FlutterOTelMetrics.recordMetric(

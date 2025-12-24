@@ -1,7 +1,7 @@
 # Wonderous OpenTelemetry
 
 This is a fork of the Wondrous app that adds OpenTelemetry
-via [Flutterific OTel](https://pub.dev/flutterific_otel) and [Dartastic.io](https://dartastic.io)
+via [Middleware Flutter OTel](https://pub.dev/middleware_flutter_otel) and [Middleware](https://middleware.io)
 
 This Wondrous app reports user interactions and app metrics to an OpenTelemetry backend.
 
@@ -10,7 +10,7 @@ such as swipes and clicks on the photo grid.
 
 This fork adds a weather widget to Wondrous to demonstrate OTel traces through the backend.
 
-To get an idea of how to apply Dartastic and Flutterrific to your app, 
+To get an idea of how to apply Middleware Dart and Flutter SDK to your app, 
 look at the first commit for opentelemetry, especially main.dart and router.dart.
 
 ## OpenTelemetry Demo

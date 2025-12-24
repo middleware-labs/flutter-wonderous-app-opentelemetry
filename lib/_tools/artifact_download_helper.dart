@@ -102,7 +102,8 @@ class _ArtifactDownloadHelperState extends State<ArtifactDownloadHelper> {
     } else {
       debugPrint('Downloading $id');
       // Fetch JSON for id
-      Uri uri = Uri.parse('https://collectionapi.metmuseum.org/public/collection/v1/objects/$id');
+      Uri uri = Uri.parse(
+          'https://collectionapi.metmuseum.org/public/collection/v1/objects/$id');
       final response = await http.get(uri);
       json = jsonDecode(response.body) as Map;
     }

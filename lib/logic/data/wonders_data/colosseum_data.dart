@@ -8,7 +8,8 @@ class ColosseumData extends WonderData {
   ColosseumData()
       : super(
           searchData: _searchData, // included as a part from ./search/
-          searchSuggestions: _searchSuggestions, // included as a part from ./search/
+          searchSuggestions:
+              _searchSuggestions, // included as a part from ./search/
           type: WonderType.colosseum,
           title: $strings.colosseumTitle,
           subTitle: $strings.colosseumSubTitle,

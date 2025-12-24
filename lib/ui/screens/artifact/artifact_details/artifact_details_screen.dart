@@ -20,7 +20,8 @@ class ArtifactDetailsScreen extends StatefulWidget {
 }
 
 class _ArtifactDetailsScreenState extends State<ArtifactDetailsScreen> {
-  late final _future = artifactLogic.getArtifactByID(widget.artifactId, selfHosted: true);
+  late final _future =
+      artifactLogic.getArtifactByID(widget.artifactId, selfHosted: true);
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +41,10 @@ class _ArtifactDetailsScreenState extends State<ArtifactDetailsScreen> {
             content = hzMode
                 ? Row(children: [
                     Expanded(child: _ArtifactImageBtn(data: data!)),
-                    Expanded(child: Center(child: SizedBox(width: 600, child: _InfoColumn(data: data)))),
+                    Expanded(
+                        child: Center(
+                            child: SizedBox(
+                                width: 600, child: _InfoColumn(data: data)))),
                   ])
                 : CustomScrollView(
                     slivers: [

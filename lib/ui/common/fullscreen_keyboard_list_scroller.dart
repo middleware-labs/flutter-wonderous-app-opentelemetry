@@ -3,7 +3,8 @@ import 'package:wondrous_opentelemetry/logic/common/throttler.dart';
 import 'package:wondrous_opentelemetry/ui/common/fullscreen_keyboard_listener.dart';
 
 class FullscreenKeyboardListScroller extends StatelessWidget {
-  FullscreenKeyboardListScroller({super.key, required this.child, required this.scrollController});
+  FullscreenKeyboardListScroller(
+      {super.key, required this.child, required this.scrollController});
 
   static const int _scrollAmountOnPress = 75;
   static const int _scrollAmountOnHold = 30;
@@ -13,7 +14,8 @@ class FullscreenKeyboardListScroller extends StatelessWidget {
   final ScrollController scrollController;
   final Throttler _throttler = Throttler(32.milliseconds);
 
-  double clampOffset(px) => px.clamp(0, scrollController.position.maxScrollExtent).toDouble();
+  double clampOffset(px) =>
+      px.clamp(0, scrollController.position.maxScrollExtent).toDouble();
 
   void _handleKeyDown(int px) {
     scrollController.animateTo(

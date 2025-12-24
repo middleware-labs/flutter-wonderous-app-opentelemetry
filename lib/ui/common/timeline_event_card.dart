@@ -3,7 +3,11 @@ import 'package:wondrous_opentelemetry/logic/common/string_utils.dart';
 import 'package:wondrous_opentelemetry/ui/common/themed_text.dart';
 
 class TimelineEventCard extends StatelessWidget {
-  const TimelineEventCard({super.key, required this.year, required this.text, this.darkMode = false});
+  const TimelineEventCard(
+      {super.key,
+      required this.year,
+      required this.text,
+      this.darkMode = false});
   final int year;
   final String text;
   final bool darkMode;
@@ -16,7 +20,8 @@ class TimelineEventCard extends StatelessWidget {
         child: DefaultTextColor(
           color: darkMode ? Colors.white : Colors.black,
           child: Container(
-            color: darkMode ? $styles.colors.greyStrong : $styles.colors.offWhite,
+            color:
+                darkMode ? $styles.colors.greyStrong : $styles.colors.offWhite,
             padding: EdgeInsets.all($styles.insets.sm),
             child: IntrinsicHeight(
               child: Row(
@@ -27,14 +32,19 @@ class TimelineEventCard extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('${year.abs()}', style: $styles.text.h3.copyWith(fontWeight: FontWeight.w400, height: 1)),
-                        Text(StringUtils.getYrSuffix(year), style: $styles.text.bodySmall),
+                        Text('${year.abs()}',
+                            style: $styles.text.h3.copyWith(
+                                fontWeight: FontWeight.w400, height: 1)),
+                        Text(StringUtils.getYrSuffix(year),
+                            style: $styles.text.bodySmall),
                       ],
                     ),
                   ),
 
                   /// Divider
-                  Container(width: 1, color: darkMode ? Colors.white : $styles.colors.black),
+                  Container(
+                      width: 1,
+                      color: darkMode ? Colors.white : $styles.colors.black),
 
                   Gap($styles.insets.sm),
 

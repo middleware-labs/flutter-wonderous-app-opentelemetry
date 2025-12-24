@@ -31,16 +31,23 @@ class _AnimatedArrowButton extends StatelessWidget {
         width: 50,
         child: Animate(
           effects: [
-            CustomEffect(builder: _buildOpacityTween, duration: duration, curve: Curves.easeOut),
-            CustomEffect(builder: _buildSlideTween, duration: duration, curve: Curves.easeOut),
+            CustomEffect(
+                builder: _buildOpacityTween,
+                duration: duration,
+                curve: Curves.easeOut),
+            CustomEffect(
+                builder: _buildSlideTween,
+                duration: duration,
+                curve: Curves.easeOut),
           ],
           child: Transform.rotate(
             angle: pi * .5,
-            child: Icon(Icons.chevron_right, size: 42, color: $styles.colors.white),
+            child: Icon(Icons.chevron_right,
+                size: 42, color: $styles.colors.white),
           ),
         ),
       ),
-    );
+    ).withOTelButtonTracking(btnLbl);
   }
 
   Widget _buildOpacityTween(BuildContext _, double value, Widget child) {

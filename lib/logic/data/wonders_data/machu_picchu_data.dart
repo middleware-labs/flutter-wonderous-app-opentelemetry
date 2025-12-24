@@ -8,7 +8,8 @@ class MachuPicchuData extends WonderData {
   MachuPicchuData()
       : super(
           searchData: _searchData, // included as a part from ./search/
-          searchSuggestions: _searchSuggestions, // included as a part from ./search/
+          searchSuggestions:
+              _searchSuggestions, // included as a part from ./search/
           type: WonderType.machuPicchu,
           title: $strings.machuPicchuTitle,
           subTitle: $strings.machuPicchuSubTitle,

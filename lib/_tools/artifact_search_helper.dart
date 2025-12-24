@@ -74,7 +74,9 @@ class _ArtifactSearchHelperState extends State<ArtifactSearchHelper> {
     if (selectedWonder == 'All') {
       wonderQueue = wondersLogic.all.toList();
     } else {
-      wonderQueue = [wondersLogic.all.firstWhere((o) => o.title == selectedWonder)];
+      wonderQueue = [
+        wondersLogic.all.firstWhere((o) => o.title == selectedWonder)
+      ];
     }
     _log('Loading data for ${wonderQueue.length} wonders');
     _http = http.Client();
@@ -157,12 +159,15 @@ class _ArtifactSearchHelperState extends State<ArtifactSearchHelper> {
     // catch all error conditions:
     if (json == null) return _logError(id, 'could not parse json');
     if ((json['title'] ?? '') == '') return _logError(id, 'missing title');
-    if (!json.containsKey('objectBeginDate') || !json.containsKey('objectBeginDate')) {
+    if (!json.containsKey('objectBeginDate') ||
+        !json.containsKey('objectBeginDate')) {
       return _logError(id, 'missing years');
     }
     //if (!json.containsKey('isPublicDomain') || !json['isPublicDomain']) return _logError(id, 'not public domain')
 
-    final int year = ((json['objectBeginDate'] as int) + (json['objectEndDate'] as int)) ~/ 2;
+    final int year =
+        ((json['objectBeginDate'] as int) + (json['objectEndDate'] as int)) ~/
+            2;
     if (year < minYear || year > maxYear) {
       return _logError(id, 'year is out of range');
     }
@@ -204,11 +209,13 @@ class _ArtifactSearchHelperState extends State<ArtifactSearchHelper> {
   }
 
   String _getKeywords(Map json) {
-    String str = '${json['objectName'] ?? ''}|${json['medium'] ?? ''}|${json['classification'] ?? ''}';
+    String str =
+        '${json['objectName'] ?? ''}|${json['medium'] ?? ''}|${json['classification'] ?? ''}';
     return _escape(str.toLowerCase());
   }
 
-  String _escape(String str) => str.replaceAll("'", "\\'").replaceAll('\r', ' ').replaceAll('\n', ' ');
+  String _escape(String str) =>
+      str.replaceAll("'", "\\'").replaceAll('\r', ' ').replaceAll('\n', ' ');
 
   void _completeId() {
     --activeRequestCount;
@@ -230,7 +237,8 @@ class _ArtifactSearchHelperState extends State<ArtifactSearchHelper> {
       entryStr += '  ${entries[i].write()},\n';
     }
 
-    String output = '// ${wonder!.title} (${entries.length})\nList<SearchData> _searchData = const [\n$entryStr];';
+    String output =
+        '// ${wonder!.title} (${entries.length})\nList<SearchData> _searchData = const [\n$entryStr];';
 
     String suggestions = _getSuggestions(entries);
 
@@ -255,7 +263,8 @@ class _ArtifactSearchHelperState extends State<ArtifactSearchHelper> {
   }
 
   void _complete() {
-    _log('\n----------\nCompleted with ${errors.length} unique errors in ${timer.elapsed.inSeconds} seconds.');
+    _log(
+        '\n----------\nCompleted with ${errors.length} unique errors in ${timer.elapsed.inSeconds} seconds.');
     String errorStr = '';
     errors.forEach((key, value) {
       errorStr += '$key (${value.length})\n';
@@ -279,7 +288,8 @@ class _ArtifactSearchHelperState extends State<ArtifactSearchHelper> {
     if (selectedWonder == 'All') {
       debugPrint('select a single wonder');
     } else {
-      WonderData wonder = wondersLogic.all.firstWhere((o) => o.title == selectedWonder);
+      WonderData wonder =
+          wondersLogic.all.firstWhere((o) => o.title == selectedWonder);
       debugPrint(_getSuggestions(wonder.searchData));
     }
   }
@@ -314,7 +324,8 @@ class _ArtifactSearchHelperState extends State<ArtifactSearchHelper> {
       ]);
       SearchData o = data[i];
       RegExp re = RegExp(r'\b\w{3,}\b');
-      List<Match> matches = re.allMatches(o.title).toList() + re.allMatches(o.keywords).toList();
+      List<Match> matches =
+          re.allMatches(o.title).toList() + re.allMatches(o.keywords).toList();
       for (int j = 0; j < matches.length; j++) {
         String match = matches[j].group(0)!.toLowerCase();
         if (ignore.contains(match)) continue;
@@ -343,7 +354,8 @@ class _ArtifactSearchHelperState extends State<ArtifactSearchHelper> {
         // input:
         SizedBox(
           width: 200,
-          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Text('Wonder to run:'),
             _buildWonderPicker(context),
             Gap(16),
@@ -360,7 +372,9 @@ class _ArtifactSearchHelperState extends State<ArtifactSearchHelper> {
             ),
             Gap(16),
             CheckboxListTile(
-                title: Text('check images'), value: checkImages, onChanged: (b) => setState(() => checkImages = b!)),
+                title: Text('check images'),
+                value: checkImages,
+                onChanged: (b) => setState(() => checkImages = b!)),
             Gap(32),
             MaterialButton(onPressed: () => _run(), child: Text('RUN')),
           ]),
@@ -404,10 +418,12 @@ class _ArtifactSearchHelperState extends State<ArtifactSearchHelper> {
   }
 }
 
-const String _baseArtifactUri = 'https://collectionapi.metmuseum.org/public/collection/v1/objects/';
+const String _baseArtifactUri =
+    'https://collectionapi.metmuseum.org/public/collection/v1/objects/';
 
 // ! as first char indicates a priority query
-const String _baseQueryUri = 'https://collectionapi.metmuseum.org/public/collection/v1/search?hasImage=true&';
+const String _baseQueryUri =
+    'https://collectionapi.metmuseum.org/public/collection/v1/search?hasImage=true&';
 const Map<WonderType, List<String>> queries = {
   WonderType.chichenItza: [
     // 550 1550

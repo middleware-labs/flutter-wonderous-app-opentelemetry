@@ -1,16 +1,19 @@
 import 'dart:convert';
-import 'package:flutterrific_opentelemetry/flutterrific_opentelemetry.dart';
+import 'package:middleware_flutter_opentelemetry/middleware_flutter_opentelemetry.dart';
 import 'package:http/http.dart' as http;
 
 class WeatherService {
-  static const String apiKey = '3f4d6e7bf868e5d14487ff4c06466e36'; // Replace with actual OpenWeatherMap API key
+  static const String apiKey =
+      '3f4d6e7bf868e5d14487ff4c06466e36'; // Replace with actual OpenWeatherMap API key
   final FlutterMetricReporter _reporter = FlutterMetricReporter();
 
-  Future<Map<String, dynamic>> getWeatherForLocation(double lat, double lon) async {
+  Future<Map<String, dynamic>> getWeatherForLocation(
+      double lat, double lon) async {
     final stopwatch = Stopwatch()..start();
 
     try {
-      final url = 'https://api.openweathermap.org/data/2.5/weather?lat=$lat&lon=$lon&appid=$apiKey&units=metric';
+      final url =
+          'https://api.openweathermap.org/data/2.5/weather?lat=$lat&lon=$lon&appid=$apiKey&units=metric';
 
       final response = await http.get(Uri.parse(url));
 
