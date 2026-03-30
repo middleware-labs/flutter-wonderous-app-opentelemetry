@@ -597,10 +597,10 @@ packages:
     dependency: "direct main"
     description:
       name: middleware_flutter_opentelemetry
-      sha256: a5596a11ab40ad988b035705e7c34f57e82a2459e0bc05572d428a77548e0ae3
+      sha256: "256a32156161fdacd0b343384c98e91758af18de147eb58929d999a118c8fdd1"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.6"
+    version: "1.0.10"
   mime:
     dependency: transitive
     description:

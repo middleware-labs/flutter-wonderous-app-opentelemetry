@@ -14,7 +14,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
 
-  middleware_flutter_opentelemetry: ^1.0.6
+  middleware_flutter_opentelemetry: ^1.0.10
   device_info_plus: ^11.3.2
   battery_plus: ^6.2.1
   #The rest of the dependencies are wonderous original dependencies
