@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:dartastic_opentelemetry_api/dartastic_opentelemetry_api.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -90,7 +91,7 @@ void main() async {
       debugPrint(
           'Using ${kIsWeb ? 'HTTP' : 'gRPC'} exporter for ${kIsWeb ? 'web' : 'native'} platform');
     }
-
+    
     await FlutterOTel.initialize(
         serviceName: 'middleware-flutter',
         endpoint: target,
@@ -104,13 +105,15 @@ void main() async {
         metricExporter: otlpMetricExporter,
         metricReader: metricReader,
         middlewareAccountKey: middlewareAccountKey,
+        enableAutoLogEvents: true,
+        enableLogs: true,
         resourceAttributes: <String, Object>{
           // Always consult the OTel Semantic Conventions to find an existing
           // convention name for an attribute.  Semantics are evolving.
           // https://opentelemetry.io/docs/specs/semconv/
           //--dart-define environment=dev
           //See https://opentelemetry.io/docs/specs/semconv/resource/deployment-environment/
-          EnvironmentResource.deploymentEnvironment.key: 'dev',
+          Environment.deploymentEnvironment.key: 'dev',
           'env': 'dev',
           // TODO ...await resourcesForDeviceInfo(deviceInfoPlugin),
           AppInfoSemantics.appName.key: packageInfo.appName,

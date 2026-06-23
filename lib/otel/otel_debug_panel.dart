@@ -1,3 +1,4 @@
+import 'package:dartastic_opentelemetry_api/dartastic_opentelemetry_api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:middleware_flutter_opentelemetry/middleware_flutter_opentelemetry.dart';
@@ -57,7 +58,7 @@ class _OTelDebugPanelState extends State<OTelDebugPanel>
 
     final span = FlutterOTel.tracer.startSpan(
       'debug_panel.test_trace',
-      attributes: {
+      attributes: <String, Object>{
         'test.type': 'manual_debug',
         'test.count': _testCount + 1,
         'ui.component': 'debug_panel',
@@ -71,7 +72,7 @@ class _OTelDebugPanelState extends State<OTelDebugPanel>
       // Add some events to the span
       span.addEventNow(
           'test_work_started',
-          {
+          <String, Object>{
             'work.type': 'simulation',
           }.toAttributes());
 
@@ -79,13 +80,13 @@ class _OTelDebugPanelState extends State<OTelDebugPanel>
 
       span.addEventNow(
           'test_work_completed',
-          {
+          <String, Object>{
             'work.items': 42,
             'work.success': true,
           }.toAttributes());
 
       // Update span with final attributes
-      span.addAttributes({
+      span.addAttributes(<String, Object>{
         'test.duration_ms': 500,
         'test.result': 'success',
       }.toAttributes());
@@ -132,7 +133,7 @@ class _OTelDebugPanelState extends State<OTelDebugPanel>
   void _sendTestError() {
     final span = FlutterOTel.tracer.startSpan(
       'debug_panel.test_error',
-      attributes: {
+      attributes: <String, Object>{
         'test.type': 'error_simulation',
         'error.intentional': true,
       }.toAttributes(),

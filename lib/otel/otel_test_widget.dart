@@ -1,3 +1,4 @@
+import 'package:dartastic_opentelemetry_api/dartastic_opentelemetry_api.dart';
 import 'package:flutter/material.dart';
 import 'package:middleware_flutter_opentelemetry/middleware_flutter_opentelemetry.dart';
 
@@ -24,7 +25,7 @@ class _OTelTestWidgetState extends State<OTelTestWidget> {
     // Create a span for widget initialization
     final span = FlutterOTel.tracer.startSpan(
       'otel_test_widget.initialization',
-      attributes: {
+      attributes: <String, Object>{
         'widget.type': 'OTelTestWidget',
         'widget.lifecycle': 'initState',
         'platform': 'flutter_web',
@@ -33,7 +34,7 @@ class _OTelTestWidgetState extends State<OTelTestWidget> {
 
     // Simulate some initialization work
     Future.delayed(const Duration(milliseconds: 100), () {
-      span.addAttributes({
+      span.addAttributes(<String, Object>{
         'initialization.completed': true,
         'initialization.duration_ms': 100,
       }.toAttributes());
@@ -54,7 +55,7 @@ class _OTelTestWidgetState extends State<OTelTestWidget> {
     // Start a span for the async operation
     final operationSpan = FlutterOTel.tracer.startSpan(
       'otel_test_widget.async_operation',
-      attributes: {
+      attributes: <String, Object>{
         'operation.type': 'simulated_async',
         'operation.id': DateTime.now().millisecondsSinceEpoch.toString(),
         'user.action': 'button_press',
@@ -66,7 +67,7 @@ class _OTelTestWidgetState extends State<OTelTestWidget> {
       final workSpan = FlutterOTel.tracer.startSpan(
         'async_operation.work_simulation',
         parentSpan: operationSpan,
-        attributes: {
+        attributes: <String, Object>{
           'work.type': 'data_processing',
           'work.complexity': 'medium',
         }.toAttributes(),
@@ -76,7 +77,7 @@ class _OTelTestWidgetState extends State<OTelTestWidget> {
       await Future.delayed(const Duration(milliseconds: 500));
 
       // Add more attributes based on the work done
-      workSpan.addAttributes({
+      workSpan.addAttributes(<String, Object>{
         'work.items_processed': 42,
         'work.success': true,
       }.toAttributes());
@@ -85,7 +86,7 @@ class _OTelTestWidgetState extends State<OTelTestWidget> {
       workSpan.end();
 
       // Update the parent span
-      operationSpan.addAttributes({
+      operationSpan.addAttributes(<String, Object>{
         'operation.result': 'success',
         'operation.items_count': 42,
       }.toAttributes());
@@ -128,7 +129,7 @@ class _OTelTestWidgetState extends State<OTelTestWidget> {
       InteractionType.tap,
       targetName: interactionType,
       responseTime: const Duration(milliseconds: 50),
-      attributes: {
+      attributes: <String, Object>{
         'interaction.count': _testCount,
         'widget.state': _isLoading ? 'loading' : 'idle',
       }.toAttributes(),
@@ -148,7 +149,7 @@ class _OTelTestWidgetState extends State<OTelTestWidget> {
   void _simulateError() {
     final span = FlutterOTel.tracer.startSpan(
       'otel_test_widget.error_simulation',
-      attributes: {
+      attributes: <String, Object>{
         'test.type': 'error_handling',
         'error.intentional': true,
       }.toAttributes(),
@@ -266,7 +267,7 @@ class _OTelTestWidgetState extends State<OTelTestWidget> {
     // Send a disposal trace
     final span = FlutterOTel.tracer.startSpan(
       'otel_test_widget.disposal',
-      attributes: {
+      attributes: <String, Object>{
         'widget.lifecycle': 'dispose',
         'test.operations_completed': _testCount,
       }.toAttributes(),

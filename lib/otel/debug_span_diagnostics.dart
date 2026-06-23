@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_print
 
 import 'dart:async';
+import 'package:dartastic_opentelemetry_api/dartastic_opentelemetry_api.dart';
 import 'package:flutter/foundation.dart';
 import 'package:middleware_flutter_opentelemetry/middleware_flutter_opentelemetry.dart';
 
@@ -111,7 +112,7 @@ class OTelSpanDiagnostics {
       print('Creating test span...');
       final span = tracer.startSpan(
         'diagnostic_test_span',
-        attributes: {
+        attributes: <String, Object>{
           'test.diagnostic': true,
           'test.timestamp': DateTime.now().millisecondsSinceEpoch,
         }.toAttributes(),
@@ -126,11 +127,11 @@ class OTelSpanDiagnostics {
       // Add some events and attributes
       span.addEventNow(
           'diagnostic_event',
-          {
+          <String, Object>{
             'event.test': true,
           }.toAttributes());
 
-      span.addAttributes({
+      span.addAttributes(<String, Object>{
         'test.updated': true,
       }.toAttributes());
 
@@ -184,7 +185,7 @@ class OTelSpanDiagnostics {
     for (int i = 0; i < 5; i++) {
       final span = FlutterOTel.tracer.startSpan(
         'monitor_test_span_$i',
-        attributes: {
+        attributes: <String, Object>{
           'test.batch': i,
           'test.monitor': true,
         }.toAttributes(),

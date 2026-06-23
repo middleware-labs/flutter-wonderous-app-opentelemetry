@@ -45,10 +45,10 @@ packages:
     dependency: transitive
     description:
       name: async
-      sha256: "947bfcf187f74dbc5e146c9eb9c0f10c9f8b30743e341481c1e2ed3ecc18c20c"
+      sha256: e2eb0491ba5ddb6177742d2da23904574082139b07c1e33b8503b9f46f3e1a37
       url: "https://pub.dev"
     source: hosted
-    version: "2.11.0"
+    version: "2.13.1"
   battery_plus:
     dependency: "direct main"
     description:
@@ -77,10 +77,10 @@ packages:
     dependency: transitive
     description:
       name: characters
-      sha256: f71061c654a3380576a52b451dd5532377954cf9dbd272a78fc8479606670803
+      sha256: faf38497bda5ead2a8c7615f4f7939df04333478bf32e4173fcb06d428b5716b
       url: "https://pub.dev"
     source: hosted
-    version: "1.4.0"
+    version: "1.4.1"
   checked_yaml:
     dependency: transitive
     description:
@@ -93,10 +93,10 @@ packages:
     dependency: transitive
     description:
       name: clock
-      sha256: cb6d7f03e1de671e34607e909a7213e31d7752be4fb66a86d29fe1eb14bfb5cf
+      sha256: fddb70d9b5277016c77a80201021d40a2247104d9f4aa7bab7157b7e3f05b84b
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.1"
+    version: "1.1.2"
   collection:
     dependency: "direct main"
     description:
@@ -117,10 +117,10 @@ packages:
     dependency: transitive
     description:
       name: crypto
-      sha256: ec30d999af904f33454ba22ed9a86162b35e52b44ac4807d1d93c288041d7d27
+      sha256: c8ea0233063ba03258fbcf2ca4d6dadfefe14f02fab57702265467a19f27fadf
       url: "https://pub.dev"
     source: hosted
-    version: "3.0.5"
+    version: "3.0.7"
   csslib:
     dependency: transitive
     description:
@@ -130,13 +130,13 @@ packages:
     source: hosted
     version: "1.0.0"
   dartastic_opentelemetry_api:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: dartastic_opentelemetry_api
-      sha256: "3031f587ed1aca4cc208a1337a86e0ec97a4aa7ede3dcf5fc7ed3c759ab074f6"
+      sha256: "455130f250e007f9ef03eae29ac132dc44e04b606e5b5f011d42cd48f22f32d9"
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.8"
+    version: "1.0.0-beta.7"
   dbus:
     dependency: transitive
     description:
@@ -453,10 +453,10 @@ packages:
     dependency: transitive
     description:
       name: grpc
-      sha256: "2dde469ddd8bbd7a33a0765da417abe1ad2142813efce3a86c512041294e2b26"
+      sha256: "86be3a7d39ad865b214a7370021ac80e68939238b507730de6d97fc662cb2723"
       url: "https://pub.dev"
     source: hosted
-    version: "4.1.0"
+    version: "5.1.0"
   home_widget:
     dependency: "direct main"
     description:
@@ -573,34 +573,34 @@ packages:
     dependency: transitive
     description:
       name: material_color_utilities
-      sha256: f7142bb1154231d7ea5f96bc7bde4bda2a0945d2806bb11670e30b850d56bdec
+      sha256: "9c337007e82b1889149c82ed242ed1cb24a66044e30979c44912381e9be4c48b"
       url: "https://pub.dev"
     source: hosted
-    version: "0.11.1"
+    version: "0.13.0"
   meta:
     dependency: transitive
     description:
       name: meta
-      sha256: "23f08335362185a5ea2ad3a4e597f1375e78bce8a040df5c600c8d3552ef2394"
+      sha256: "1741988757a65eb6b36abe716829688cf01910bbf91c34354ff7ec1c3de2b349"
       url: "https://pub.dev"
     source: hosted
-    version: "1.17.0"
+    version: "1.18.0"
   middleware_dart_opentelemetry:
     dependency: transitive
     description:
       name: middleware_dart_opentelemetry
-      sha256: "2e7048cbd1febf513debc956bd44b248338cc2ebc254f0fcfe133cbc47565d73"
+      sha256: "9fc33314d0830b82d0751746893a2c2b166ab3d52d933922a2d8b7aa4f77883a"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.5"
+    version: "1.0.6"
   middleware_flutter_opentelemetry:
     dependency: "direct main"
     description:
       name: middleware_flutter_opentelemetry
-      sha256: "256a32156161fdacd0b343384c98e91758af18de147eb58929d999a118c8fdd1"
+      sha256: b6bc62134559ea5cdbf2cafc3eebe5afba86fba7bee1bb359935c3959e54d605
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.10"
+    version: "1.0.16"
   mime:
     dependency: transitive
     description:
@@ -781,10 +781,10 @@ packages:
     dependency: transitive
     description:
       name: protobuf
-      sha256: de9c9eb2c33f8e933a42932fe1dc504800ca45ebc3d673e6ed7f39754ee4053e
+      sha256: "75ec242d22e950bdcc79ee38dd520ce4ee0bc491d7fadc4ea47694604d22bf06"
       url: "https://pub.dev"
     source: hosted
-    version: "4.2.0"
+    version: "6.0.0"
   provider:
     dependency: "direct main"
     description:
@@ -1191,5 +1191,5 @@ packages:
     source: hosted
     version: "3.1.0"
 sdks:
-  dart: ">=3.8.0 <4.0.0"
+  dart: ">=3.10.0-0 <4.0.0"
   flutter: ">=3.29.0"
